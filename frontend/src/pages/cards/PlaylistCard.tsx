@@ -1,13 +1,15 @@
-const PlaylistCard = () => {
-  const title: string = "New York";
-  const imgUrl: string =
-    "https://images.unsplash.com/photo-1511233002817-99325d7cc2d6?w=700&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTR8fHBsYXlsaXN0fGVufDB8fDB8fHww";
+import { buttonVariants } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
+
+const PlaylistCard = ({item}:{item:{title:string,imageUrl:string}}) => {
+  const {title,imageUrl} = item;
   return (
-    <div>
-      <div className="flex flex-row max-w-auto h-auto gap-x-3 items-center">
+    <div className="h-15">
+      <div className={cn("flex flex-row max-w-auto gap-x-3 items-center ",buttonVariants(
+        {variant:"ghost",className:"p-0 w-full h-15 justify-start hover:bg-zinc-800"}))}>
         <div className="flex-shrink-0">
           <img
-            src={imgUrl}
+            src={imageUrl}
             alt="CoverImage"
             className="w-12 h-12 object-cover rounded"
           />

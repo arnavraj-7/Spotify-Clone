@@ -2,8 +2,10 @@ import { User } from "../models/user.model.js";
 
 const getUsers = async (req, res,next) => {
   try {
-    const currentUserId=req.auth.userId
+    const auth = req.auth();
+    const currentUserId=auth.userId
     const users = await User.find({clerkId:{$ne:currentUserId}});
+    console.log("Sending all users:",users," to ",currentUserId);
     if (!users) {
       res.status(401).json({ message: "Cannot get Users." });
       return;

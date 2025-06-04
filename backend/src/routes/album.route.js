@@ -8,6 +8,6 @@ const router = Router();
 // router.use(protectroute);
 
 router.get("/", getAlbums);
-router.get("/:id", getAlbumbyId);
+router.get("/:_id", getAlbumbyId);
 
 export default router;

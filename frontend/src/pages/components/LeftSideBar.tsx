@@ -1,10 +1,5 @@
-import {
-  GalleryVerticalEnd,
-  HomeIcon,
-  Library,
-  MessageCircleMore,
-} from "lucide-react";
-import React from "react";
+import { HomeIcon, Library, MessageCircleMore } from "lucide-react";
+import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import PlaylistCard from "../cards/PlaylistCard";
 import { ScrollArea } from "@/components/ui/scroll-area";
@@ -13,62 +8,88 @@ import { SignedIn } from "@clerk/clerk-react";
 import { cn } from "@/lib/utils";
 import { buttonVariants } from "@/components/ui/button";
 
+import useMusicStore from "@/stores/AlbumStore";
 const LeftSideBar = () => {
-  const isLoading = true;
-  const playlist: number[] = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+  const { albums, fetchAlbums, isLoading } = useMusicStore();
+  useEffect(() => {
+    fetchAlbums();
+  }, []);
   return (
-    <div className="flex flex-col gap-y-3 w-full">
+    <div className="flex flex-col gap-y-3 w-full h-[calc(100%-80px)]">
       {/* Navigation */}
       <div className="flex flex-col gap-y-4 bg-zinc-900 w-full p-4 rounded-md">
-        <Link to="/"
-        className={cn(buttonVariants({
-            variant: "ghost",
-            className:"w-full justify-start hover:bg-zinc-800"
-        }))}
+        <Link
+          to="/"
+          className={cn(
+            buttonVariants({
+              variant: "ghost",
+              className: "w-full justify-start hover:bg-zinc-800",
+            })
+          )}
         >
-        <div className="flex gap-x-2 items-center">
-          <HomeIcon size={20} />
-          <span className="md:inline hidden">Home</span>
-        </div>
+          <div className="flex gap-x-2 items-center">
+            <HomeIcon size={20} />
+            <span className="md:inline hidden">Home</span>
+          </div>
         </Link>
         <SignedIn>
-            <Link to={"/chat"} className={cn(buttonVariants({
+          <Link
+            to={"/chat"}
+            className={cn(
+              buttonVariants({
                 variant: "ghost",
-                className:"w-full justify-start hover:bg-zinc-800"
-            }))}>
-                <div className="flex gap-x-2 items-center">
-          <MessageCircleMore size={20} />
-          <span className="md:inline hidden">Message</span>
-        </div>
-            </Link>
+                className: "w-full justify-start hover:bg-zinc-800",
+              })
+            )}
+          >
+            <div className="flex gap-x-2 items-center">
+              <MessageCircleMore size={20} />
+              <span className="md:inline hidden">Message</span>
+            </div>
+          </Link>
         </SignedIn>
       </div>
 
       {/* Library */}
-      <div>
-        <ScrollArea className="h-[calc(100vh-200px)] gap-y-4">
-          <div className="flex flex-col gap-y-5 bg-zinc-900 rounded-md pl-4 pt-2 pb-4 h-auto ">
-            <div className="flex flex-row gap-x-2">
-              <Library size={20} />
-              Playlists
-            </div>
-
-            {playlist.map((item) => {
+      <div className="bg-zinc-900 rounded-md h-[calc(100%-130px)]">
+        <div className="flex flex-row justify-start items-center p-4">
+          <div>
+            <Library size={20} />
+          </div>
+          <div>
+            <span className="ml-4 md:inline hidden">Playlists</span>
+          </div>
+        </div>
+        <ScrollArea className="h-[calc(100%-80px)]">
+          <div className="flex flex-col gap-y-4 rounded-md px-4 pt-2">
+            {albums.map((item) => {
               return (
-                <>{isLoading ? <PlaylistCardSkeleton /> : <PlaylistCard />}</>
+                <Link
+                  to={`/album/${item._id || Math.random()}`}
+                  key={item._id || Math.random()}
+                >
+                  {isLoading ? (
+                    <PlaylistCardSkeleton />
+                  ) : (
+                    <PlaylistCard item={item} />
+                  )}
+                </Link>
               );
             })}
-            <PlaylistCard />
-            <PlaylistCard />
-            <PlaylistCard />
-            <PlaylistCard />
-            <PlaylistCard />
-            <PlaylistCard />
-            <PlaylistCard />
-            <PlaylistCard />
-            <PlaylistCard />
-            <PlaylistCard />
-            <PlaylistCard />
+            {albums.map((item) => {
+              return (
+                <Link
+                  to={`/album/${item._id || Math.random()}`}
+                  key={item._id || Math.random()}
+                >
+                  {isLoading ? (
+                    <PlaylistCardSkeleton />
+                  ) : (
+                    <PlaylistCard item={item} />
+                  )}
+                </Link>
+              );
+            })}
           </div>
         </ScrollArea>
       </div>

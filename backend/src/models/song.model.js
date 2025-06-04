@@ -24,6 +24,9 @@ const SongSchema = new mongoose.Schema({
     duration:{
         type:Number,
         required:true,
+    },
+    plays:{
+        type:Number
     }
 },{timestamps:true})
 

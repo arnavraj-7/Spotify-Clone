@@ -10,16 +10,15 @@ const AlbumSchema = new mongoose.Schema({
         required:true
     },
     songs:{
-        type:mongoose.Schema.Types.ObjectId,
+        type:[mongoose.Schema.Types.ObjectId],
         ref:"Song"
     },
      imageUrl:{
         type:String,
         required:true
     },
-    releaseDate:{
-        type:Date,
-        required:true
+    releaseYear:{
+        type:Number,
     }
 },{timestamps:true})
 

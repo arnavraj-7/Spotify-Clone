@@ -46,6 +46,7 @@ const getFeaturedSongs = async (req, res, next) => {
         message: "Cannot get Featured Songs.",
       });
     }
+    console.log("sending featured",featured);
     res.json(featured);
   } catch (error) {
     next(error);
@@ -55,7 +56,7 @@ const getMadeforyou = async (req, res, next) => {
   try {
     //fetch 4 random songs using aggregation pipelines
     const madeforyou = await Song.aggregate([
-      { $sample: { size: 4 } },
+      { $sample: { size: 6 } },
       {
         $project: {
           title: 1,
@@ -70,6 +71,7 @@ const getMadeforyou = async (req, res, next) => {
         message: "Cannot get madeforyou Songs.",
       });
     }
+    console.log("sending madeforyou");
     res.json(madeforyou);
   } catch (error) {
     next(error);
@@ -95,9 +97,17 @@ const getTrendingSongs = async (req, res, next) => {
         message: "Cannot get Trending Songs.",
       });
     }
+    console.log("sending trending");
+
     res.status(200).json(trending);
   } catch (error) {
     next(error);
   }
 };
-export { getSongs, getSongbyId, getFeaturedSongs, getMadeforyou,getTrendingSongs };
+export {
+  getSongs,
+  getSongbyId,
+  getFeaturedSongs,
+  getMadeforyou,
+  getTrendingSongs,
+};
