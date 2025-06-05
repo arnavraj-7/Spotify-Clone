@@ -5,7 +5,7 @@ type PlayerStore = {
   queue: Song[];
   currentSong: Song | null;
   currentIndex: number;
-  playAlbum: (album: Album) => void;
+  playAlbum: (songs: Song[],index:number) => void;
   setCurrentsong: (song: Song) => void;
   initialiseQueue: (songs: Song[]) => void;
   togglePlay: () => void;
@@ -15,7 +15,7 @@ type PlayerStore = {
 
 const usePlayerStore = create<PlayerStore>((set, get) => {
   return {
-    currentSong: get().currentSong || null,
+    currentSong: null,
     isPlaying: false,
     currentIndex: -1,
     queue: [],
@@ -26,8 +26,8 @@ const usePlayerStore = create<PlayerStore>((set, get) => {
         currentIndex: get().currentIndex === -1 ? 0 : get().currentIndex,
       });
     },
-    playAlbum(songs: Song[]) {
-      set({ queue: songs, isPlaying: true, currentIndex: 0 });
+    playAlbum(songs: Song[],index:number) {
+      set({ queue: songs, isPlaying: true, currentIndex: index,currentSong:songs[index] });
     },
     setCurrentsong(song: Song) {
       if (song) {
@@ -77,3 +77,6 @@ const usePlayerStore = create<PlayerStore>((set, get) => {
     },
   };
 });
+
+
+export default usePlayerStore

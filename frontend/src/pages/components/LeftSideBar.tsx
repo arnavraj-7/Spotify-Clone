@@ -8,14 +8,14 @@ import { SignedIn } from "@clerk/clerk-react";
 import { cn } from "@/lib/utils";
 import { buttonVariants } from "@/components/ui/button";
 
-import useMusicStore from "@/stores/AlbumStore";
+import useMusicStore from "@/stores/MusicStore";
 const LeftSideBar = () => {
   const { albums, fetchAlbums, isLoading } = useMusicStore();
   useEffect(() => {
     fetchAlbums();
   }, []);
   return (
-    <div className="flex flex-col gap-y-3 w-full h-[calc(100%-80px)]">
+    <div className="flex flex-col gap-y-3 w-full">
       {/* Navigation */}
       <div className="flex flex-col gap-y-4 bg-zinc-900 w-full p-4 rounded-md">
         <Link
@@ -51,7 +51,7 @@ const LeftSideBar = () => {
       </div>
 
       {/* Library */}
-      <div className="bg-zinc-900 rounded-md h-[calc(100%-130px)]">
+      <div className="bg-zinc-900 rounded-md">
         <div className="flex flex-row justify-start items-center p-4">
           <div>
             <Library size={20} />
@@ -60,7 +60,7 @@ const LeftSideBar = () => {
             <span className="ml-4 md:inline hidden">Playlists</span>
           </div>
         </div>
-        <ScrollArea className="h-[calc(100%-80px)]">
+        <ScrollArea className="h-[calc(100vh-300px)]">
           <div className="flex flex-col gap-y-4 rounded-md px-4 pt-2">
             {albums.map((item) => {
               return (

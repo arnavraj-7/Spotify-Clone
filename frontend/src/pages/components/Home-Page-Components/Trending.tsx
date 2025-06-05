@@ -16,7 +16,7 @@ const Trending = () => {
   }, []);
   return (
    <>
-      <div className=" mx-4 flex justify-between items-center">
+      <div className=" mx-4 flex justify-between items-cente">
         <div className="text-2xl ml-3 font-bold">Trending</div>
         <div className="text-sm font-semibold text-zinc-700 hover:text-zinc-500 transition-all duration-150 ease-in ">
           <Link to="/trending"> Show All</Link>

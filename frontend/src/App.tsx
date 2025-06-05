@@ -8,7 +8,7 @@ import MainLayout from "./layouts/MainLayout.tsx";
 import { ChatPage } from "./pages/ChatPage.tsx";
 import AlbumPage from "./pages/AlbumPage.tsx";
 import MadeForYou from "./pages/MadeForYou.tsx";
-import Trending from "./pages/Trending.tsx";
+import Trending from "./pages/TrendingPage.tsx";
 import Topbar from "./components/ui/Topbar.tsx";
 
 function App() {

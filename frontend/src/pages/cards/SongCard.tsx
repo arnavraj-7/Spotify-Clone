@@ -3,7 +3,7 @@ import { cn } from "@/lib/utils";
 import type { Song } from "@/types/index.js";
 import { Play } from "lucide-react";
 import { useState } from "react";
-const SongCard = ({ song, rank }: { song: Song; rank: number }) => {
+const SongCard = ({ song, rank,isPlaying }: { song: Song, rank: number,isPlaying: boolean }) => {
   const [hover, setHover] = useState(false);
   const handleDuration = (duration: number): string => {
     if (duration < 60) {
@@ -35,11 +35,11 @@ const SongCard = ({ song, rank }: { song: Song; rank: number }) => {
           <div className="flex items-center">
             <div>
               <div className="w-6 flex items-center mr-4">
-                {hover ? (
+                {isPlaying?<div className="size-4 text-green-500">♫</div>:(hover ? (
                   <Play size={20} />
                 ) : (
                   <span className="font-normal text-gray-400">{rank}</span>
-                )}
+                ))}
               </div>
             </div>
             <div className="mr-3">

@@ -1,17 +1,39 @@
-import useMusicStore from "@/stores/AlbumStore.ts";
-import { Clock3, PlayCircle } from "lucide-react";
+import useAlbumStore from "@/stores/MusicStore.ts";
+import { Clock3, Pause, Play, PlayCircle } from "lucide-react";
 import React, { useEffect, useState } from "react";
 import SongCard from "./cards/SongCard.tsx";
 import { Link, useParams } from "react-router-dom";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import SongSkeleton from "@/skeletons/SongSkeleton";
+import usePlayerStore from "@/stores/PlayerStore.ts";
+import { Button } from "@/components/ui/button.tsx";
 
 const AlbumPage = () => {
   const id: string = useParams().id;
+  const { currentSong, isPlaying, playAlbum, togglePlay } = usePlayerStore();
 
   const { fetchAlbumbyId, currentAlbum, isLoadingSingleAlbum } =
-    useMusicStore();
-  console.log("mounted");
+    useAlbumStore();
+
+  const handlePlayAlbum = () => {
+    if (!currentAlbum?.songs) return;
+
+    if (currentAlbum?.songs.some((song) => song._id === currentSong?._id)) {
+      togglePlay();
+    } else {
+      playAlbum(currentAlbum?.songs, 0);
+    }
+  };
+  const handlePlaySong = (index: number) => {
+    if (
+      !Array.isArray(currentAlbum?.songs) ||
+      typeof currentAlbum.songs[0] === "string"
+    )
+      return;
+
+    if (typeof currentAlbum.songs === "string") return;
+    playAlbum(currentAlbum.songs || [], index);
+  };
   useEffect(() => {
     fetchAlbumbyId(id);
   }, [id]);
@@ -44,7 +66,22 @@ const AlbumPage = () => {
       </div>
       <div className="bg-zinc-900 h-full rounded-b-md">
         <div className="ml-6 mb-4">
-          <PlayCircle size={50} className="text-green-500" />
+          <Button
+            onClick={() => {
+              handlePlayAlbum();
+            }}
+            size={"icon"}
+            className="w-14 h-14 rounded-full bg-green-500 hover:bg-green-400 hover:scale-105 transition-all duration-200 ease-in-out"
+          >
+            {isPlaying &&
+            currentAlbum?.songs.some(
+              (song) => song._id === currentSong?._id
+            ) ? (
+              <Pause size={100} className="text-black h-7 w-7" />
+            ) : (
+              <Play size={100} className="text-black h-7 w-7" />
+            )}{" "}
+          </Button>
         </div>
         <div className="flex justify-between px-6 text-gray-400 w-full mb-2">
           <div className="flex">
@@ -63,17 +100,22 @@ const AlbumPage = () => {
         <div className="px-4 h-full">
           <ScrollArea className="h-[calc(100vh-400px)]">
             {currentAlbum?.songs?.map((song, index) => {
-              const rank = index + 1;
               if (typeof song === "string") return null;
+              const isCurrentSong = song._id === currentSong?._id;
+              const rank = index + 1;
 
               return isLoadingSingleAlbum ? (
                 Array.from({ length: 5 }).map(() => {
                   return <SongSkeleton />;
                 })
               ) : (
-                <Link to={`/song/${song._id}`}>
-                  <SongCard song={song} rank={rank} />
-                </Link>
+                <div key={song._id} onClick={() => handlePlaySong(index)}>
+                  <SongCard
+                    song={song}
+                    rank={rank}
+                    isPlaying={isCurrentSong && isPlaying}
+                  />
+                </div>
               );
             })}
           </ScrollArea>

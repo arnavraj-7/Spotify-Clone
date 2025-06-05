@@ -7,7 +7,7 @@ import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 import {shallow} from "zustand/shallow";
 
-const Trending = () => {
+const TrendingPage = () => {
   const { fetchTrendingSong, TrendingSong, } = useSongStore();
   useEffect(() => {
     if (!TrendingSong) {
@@ -38,4 +38,4 @@ const Trending = () => {
   );
 };
 
-export default Trending;
+export default TrendingPage;

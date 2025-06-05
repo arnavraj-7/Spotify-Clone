@@ -23,7 +23,7 @@ const MadeforYou = () => {
           <Link to="/made-for-you"> Show All</Link>
         </div>
       </div>
-      <ScrollArea className="w-full whitespace-nowrap h-75 px-2 my-0 py-0">
+      <ScrollArea className="w-full whitespace-nowrap overflow-x h-75 px-2 my-0 py-0">
         <div className="flex space-x-4">
           {MadeforYouSong
             ? MadeforYouSong.map((song) => {

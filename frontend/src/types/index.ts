@@ -17,7 +17,7 @@ export type Album = {
   imageUrl: string;
   artist: string;
   releaseYear: number;
-  songs?: string[] | Song[];
+  songs?: Song[];
   updatedAt?: Date;
   createdAt?: Date;
 }
