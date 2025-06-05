@@ -27,7 +27,7 @@ const HomeSongCard = ({song}:{song:Song}) => {
        
       </div>
        <div className='absolute bottom-0 right-0 hidden group-hover:inline bg-green-500 text-black rounded-md'>
-         { isCurrentSong?<PlayButton song={song}/>:<Pause className='w-8 h-8' size={100} />}
+         { isCurrentSong?<Pause className='w-8 h-8' size={100} />:<PlayButton song={song}/>}
           </div>
     </div>
   )

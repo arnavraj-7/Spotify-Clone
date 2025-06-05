@@ -12,7 +12,9 @@ const PlayButton = ({song}:{song:Song}) => {
         togglePlay()
         return
     }
-    setCurrentsong(song)}
+    setCurrentsong(song)
+    console.log("song clicked",song)
+}
     }>
     <PlayIcon className='w-8 h-8' size={100} />
 </Button>

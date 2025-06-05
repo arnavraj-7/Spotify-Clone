@@ -28,7 +28,7 @@ const MadeforYou = () => {
           {MadeforYouSong
             ? MadeforYouSong.map((song) => {
                 return (
-                  <Link to={song._id} key={song._id}>
+                  <Link to={`song/${song._id}`} key={song._id}>
                     <TrendingSongCard song={song} />
                   </Link>
                 );

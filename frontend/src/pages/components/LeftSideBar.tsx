@@ -15,7 +15,7 @@ const LeftSideBar = () => {
     fetchAlbums();
   }, []);
   return (
-    <div className="flex flex-col gap-y-3 w-full">
+    <div className="flex flex-col gap-y-3 w-full h-[calc(100vh-104px)]">
       {/* Navigation */}
       <div className="flex flex-col gap-y-4 bg-zinc-900 w-full p-4 rounded-md">
         <Link

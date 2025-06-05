@@ -1,7 +1,7 @@
 import useAlbumStore from "@/stores/MusicStore.ts";
 import { Clock3, Pause, Play, PlayCircle } from "lucide-react";
 import React, { useEffect, useState } from "react";
-import SongCard from "./cards/SongCard.tsx";
+import {SongCard} from "./cards/SongCard.tsx";
 import { Link, useParams } from "react-router-dom";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import SongSkeleton from "@/skeletons/SongSkeleton";
@@ -39,7 +39,7 @@ const AlbumPage = () => {
   }, [id]);
 
   return (
-    <div className="h-[calc(100%-320px)] w-full rounded-t-md ">
+    <div className="h-[calc(100%-100px)] w-full ">
       <div className="bg-gradient-to-b from-purple-900  to-zinc-900 p-6 h-60 rounded-t-md">
         <div className="flex flex-row max-w-auto gap-x-3 items-end">
           <div className="flex-shrink-0">
@@ -56,7 +56,7 @@ const AlbumPage = () => {
             </div>
             <div className="text-gray-400 text-sm flex gap-x-2">
               <span className="font-semibold text-md text-white">
-                Various Artists
+                {currentAlbum?.artist}
               </span>
               <span className="">• {currentAlbum?.songs?.length}</span>
               <span className="">• {currentAlbum?.releaseYear}</span>
@@ -98,7 +98,7 @@ const AlbumPage = () => {
         <hr className=" w-[calc(100%-32px)] flex justify-center mx-auto mb-5" />
 
         <div className="px-4 h-full">
-          <ScrollArea className="h-[calc(100vh-400px)]">
+          <ScrollArea className="h-[calc(100vh-500px)]">
             {currentAlbum?.songs?.map((song, index) => {
               if (typeof song === "string") return null;
               const isCurrentSong = song._id === currentSong?._id;

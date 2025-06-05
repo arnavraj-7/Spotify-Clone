@@ -5,11 +5,11 @@ import { Play } from "lucide-react";
 import { useState } from "react";
 const SongCard = ({ song, rank,isPlaying }: { song: Song, rank: number,isPlaying: boolean }) => {
   const [hover, setHover] = useState(false);
-  const handleDuration = (duration: number): string => {
+   const handleDuration = (duration: number): string => {
     if (duration < 60) {
       return "0:" + String(duration);
     } else {
-      return String(Math.floor(duration / 60)) + ":" + String(duration % 60);
+      return String(Math.floor(duration / 60)) + ":" + ((duration%60)>10?String(duration % 60):"0"+String(duration % 60));
     }
   };
   return (
@@ -35,7 +35,7 @@ const SongCard = ({ song, rank,isPlaying }: { song: Song, rank: number,isPlaying
           <div className="flex items-center">
             <div>
               <div className="w-6 flex items-center mr-4">
-                {isPlaying?<div className="size-4 text-green-500">♫</div>:(hover ? (
+                {isPlaying?<div className="size-4 text-green-500 text-xl animate-bounce ">♫</div>:(hover ? (
                   <Play size={20} />
                 ) : (
                   <span className="font-normal text-gray-400">{rank}</span>
@@ -71,4 +71,4 @@ const SongCard = ({ song, rank,isPlaying }: { song: Song, rank: number,isPlaying
   );
 };
 
-export default SongCard;
+export { SongCard};

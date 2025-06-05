@@ -4,10 +4,14 @@ import React, { useEffect } from "react";
 const AudioPlayer = () => {
   const audioRef = React.useRef<HTMLAudioElement>(null);
   const prevSongRef = React.useRef<string | null>(null);
-  const { currentSong, isPlaying, playNext, playPrev } = usePlayerStore();
+  const { currentSong, isPlaying, playNext, repeat, setAudioRef } =
+    usePlayerStore();
+  //declare audioRef globally
+  useEffect(() => {
+    setAudioRef(audioRef);
+  }, [setAudioRef]);
 
   //handle play/pause logic
-
   useEffect(() => {
     async function tryPlay() {
       try {
@@ -21,20 +25,33 @@ const AudioPlayer = () => {
       }
     }
     tryPlay();
-  }, [isPlaying]);
+  }, [currentSong, isPlaying]);
 
   //handle song end
   useEffect(() => {
     const audio = audioRef.current;
     const handleEnded = () => {
-        console.log("song ended.");
-      playNext();
+      
+      if (!audio) return;
+      console.log("song ended.");
+      if (repeat) {
+      audio.onloadedmetadata = null
+        audio.src = currentSong?.audioUrl;
+        console.log("repeat true");
+        audio.currentTime = 0;
+        audio.onloadedmetadata=()=>{audio.play();}
+      } else {
+        console.log("repeat false");
+        playNext()
+      }
+      
     };
-    audio?.addEventListener("ended", handleEnded);
+      audio?.addEventListener("ended", handleEnded);
     return () => {
       audio?.removeEventListener("ended", handleEnded);
+     
     };
-  }, [ playNext]);
+  }, [playNext, repeat]);
 
   //handle song change
   useEffect(() => {
@@ -45,16 +62,26 @@ const AudioPlayer = () => {
     const isSongChange = prevSongRef.current != currentSong?.audioUrl;
     if (isSongChange) {
       //change song in audio element
+      audio.onloadedmetadata = null
       audio.src = currentSong?.audioUrl;
       //reset playback
       audio.currentTime = 0;
       prevSongRef.current = currentSong?.audioUrl;
       if (isPlaying) {
-        audio.play();
+         audio.onloadedmetadata=()=>{
+           audio.play();
+         }
       }
     }
   }, [currentSong, isPlaying]);
-  return <audio ref={audioRef} src={currentSong?.audioUrl?currentSong.audioUrl:null} />;
+  return (
+    <>
+      <audio
+        ref={audioRef}
+        src={currentSong?.audioUrl ? currentSong.audioUrl : null}
+      />
+    </>
+  );
 };
 
 export default AudioPlayer;

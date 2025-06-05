@@ -1,5 +1,6 @@
 import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from "@/components/ui/resizable";
 import AudioPlayer from "@/pages/components/AudioPlayer";
+import AudioPlayerControls from "@/pages/components/AudioPlayerControls";
 import FriendsandActivity from "@/pages/components/FriendsandActivity";
 import LeftSideBar from "@/pages/components/LeftSideBar.tsx";
 import { Outlet } from "react-router-dom";
@@ -26,6 +27,7 @@ const MainLayout = () => {
             <FriendsandActivity/>
         </ResizablePanel>
       </ResizablePanelGroup>
+      <AudioPlayerControls/>
     </div>
   );
 };

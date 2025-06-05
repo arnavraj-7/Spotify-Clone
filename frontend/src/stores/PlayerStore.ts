@@ -1,24 +1,32 @@
 import type { Album, Song } from "@/types";
+import React from "react";
 import { create } from "zustand";
 type PlayerStore = {
   isPlaying: boolean;
   queue: Song[];
   currentSong: Song | null;
   currentIndex: number;
-  playAlbum: (songs: Song[],index:number) => void;
+  audioRef: React.RefObject<HTMLAudioElement>;
+  repeat: boolean;
+  playAlbum: (songs: Song[], index: number) => void;
   setCurrentsong: (song: Song) => void;
   initialiseQueue: (songs: Song[]) => void;
   togglePlay: () => void;
   playNext: () => void;
   playPrev: () => void;
+  setRepeat: () => void;
+  setAudioRef:(audioRef: React.RefObject<HTMLAudioElement>)=>void;
 };
 
 const usePlayerStore = create<PlayerStore>((set, get) => {
   return {
     currentSong: null,
     isPlaying: false,
+    repeat:false,
     currentIndex: -1,
     queue: [],
+    audioRef: React.createRef<HTMLAudioElement>(),
+    setAudioRef:(audioRef: React.RefObject<HTMLAudioElement>)=>set({audioRef}),
     initialiseQueue: (songs: Song[]) => {
       set({
         queue: songs,
@@ -26,8 +34,13 @@ const usePlayerStore = create<PlayerStore>((set, get) => {
         currentIndex: get().currentIndex === -1 ? 0 : get().currentIndex,
       });
     },
-    playAlbum(songs: Song[],index:number) {
-      set({ queue: songs, isPlaying: true, currentIndex: index,currentSong:songs[index] });
+    playAlbum(songs: Song[], index: number) {
+      set({
+        queue: songs,
+        isPlaying: true,
+        currentIndex: index,
+        currentSong: songs[index],
+      });
     },
     setCurrentsong(song: Song) {
       if (song) {
@@ -39,6 +52,13 @@ const usePlayerStore = create<PlayerStore>((set, get) => {
           isPlaying: true,
           currentIndex: songIndex !== -1 ? songIndex : get().currentIndex,
         });
+      }
+    },
+    setRepeat() {
+      if (get().repeat) {
+        set({ repeat: false });
+      } else {
+        set({ repeat: true });
       }
     },
     togglePlay() {
@@ -78,5 +98,4 @@ const usePlayerStore = create<PlayerStore>((set, get) => {
   };
 });
 
-
-export default usePlayerStore
+export default usePlayerStore;
