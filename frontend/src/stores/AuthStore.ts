@@ -3,7 +3,7 @@ import { create } from "zustand";
 
 type AdminStore = {
   isAdmin: boolean;
-  checkAdmin: Promise<void>;
+  checkAdmin:()=> Promise<void>;
 };
 
 const useAuthStore = create<AdminStore>((set) => {

@@ -25,16 +25,22 @@ const createSong = async (req, res, next) => {
       return;
     }
     const { title, artist, albumId, duration } = req.body; //extract data from request
+    let _albumId = null;
     const audioFile = req.files.audioFile;
     const imageFile = req.files.imageFile;
     //save to cloudinary
-
     const audioUrl = await uploadtoCloudinary(audioFile);
     const imageUrl = await uploadtoCloudinary(imageFile);
+
+    //check for album
+    if(albumId!=""){
+      _albumId=albumId
+    }
+
     const new_song = await Song.create({
       title,
       artist,
-      albumId: albumId || "",
+      albumId: _albumId,
       imageUrl,
       audioUrl,
       duration,

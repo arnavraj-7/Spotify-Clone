@@ -24,7 +24,7 @@ interface NewSong {
 }
 
 const AddSongDialog = () => {
-	const { albums } = useAdminStore();
+	const { albums,updateSong } = useAdminStore();
 	const [songDialogOpen, setSongDialogOpen] = useState(false);
 	const [isLoading, setIsLoading] = useState(false);
 
@@ -63,12 +63,13 @@ const AddSongDialog = () => {
 			formData.append("audioFile", files.audio);
 			formData.append("imageFile", files.image);
 
-			await API.post("/admin/songs", formData, {
+		const uploaded_song	= await API.post("/admin/song", formData, {
 				headers: {
+                    ...API.defaults.headers.common,
 					"Content-Type": "multipart/form-data",
 				},
 			});
-
+            updateSong(uploaded_song.data)
 			setNewSong({
 				title: "",
 				artist: "",

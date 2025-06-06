@@ -1,5 +1,4 @@
 import API from "@/lib/axios";
-import type Albums from "@/pages/Admin/Albums";
 import { create } from "zustand";
 import { toast } from "react-hot-toast";
 import type { Album, Song } from "@/types";
@@ -17,16 +16,18 @@ type AdminStore = {
   getAllAlbums: () => Promise<void>;
   deleteSong: (id: string) => Promise<void>;
   deleteAlbum: (id: string) => Promise<void>;
+  updateSong:(song:Song)=>void
+  updateAlbum:(album:Album)=>void
 };
 
-export const useAdminStore = create((set, get) => {
+export const useAdminStore = create<AdminStore>((set, get) => {
   return {
     songs: [],
     albums: [],
-    users: Number,
-    totalsongs: Number,
-    totalalbums: Number,
-    totalartists: Number,
+    users: 0,
+    totalsongs: 0,
+    totalalbums: 0,
+    totalartists: 0,
     isLoading: false,
     error: null,
     getStats: async () => {
@@ -106,5 +107,11 @@ export const useAdminStore = create((set, get) => {
         console.log(error);
       }
     },
+    updateSong(newsong:Song){
+      get().songs.push(newsong);
+    },
+    updateAlbum(newalbum:Album){
+      get().albums.push(newalbum);
+    }
   };
 });

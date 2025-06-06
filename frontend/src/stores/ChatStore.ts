@@ -6,7 +6,7 @@ type ChatStore = {
   users: User[] | [];
   error: string | null;
   isLoading: boolean;
-  fetchUsers: Promise<void>;
+  fetchUsers:()=> Promise<void>;
 };
 
 const useChatStore = create<ChatStore>((set) => {

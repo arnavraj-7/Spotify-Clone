@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom'
 import { useAdminStore } from '@/stores/AdminStore'
 import SongSkeleton from '@/skeletons/SongSkeleton'
 import { AlbumCard_admin } from './AlbumCard_admin'
+import AddAlbumDialog from './AddAlbumForm'
 const Albums = () => {
     const {albums,getAllAlbums,isLoading}=useAdminStore();
 
@@ -14,9 +15,7 @@ const Albums = () => {
         <div className='flex flex-rows gap-x-3 text-xl items-center'><Music className="text-green-600" size={30}/>Album Library</div>
 <div className='font-normal text-gray-500 text-sm mt-1 mb-4'>Manage your albums</div>
         </div>
-        <Button>
-            <Link to="admin/addsong" className='flex flex-row gap-x-2 items-center'><Music size={10}/>Add Song</Link>
-        </Button>
+        <AddAlbumDialog/>
     </div>
     <div>
     {albums.map((album,index)=>{return (

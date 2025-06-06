@@ -8,7 +8,7 @@ import { SignedIn } from "@clerk/clerk-react";
 import { cn } from "@/lib/utils";
 import { buttonVariants } from "@/components/ui/button";
 
-import useMusicStore from "@/stores/MusicStore";
+import useMusicStore from "@/stores/AlbumStore";
 const LeftSideBar = () => {
   const { albums, fetchAlbums, isLoading } = useMusicStore();
   useEffect(() => {

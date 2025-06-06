@@ -10,11 +10,13 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import API from "@/lib/axios";
+import { useAdminStore } from "@/stores/AdminStore";
 import { Plus, Upload } from "lucide-react";
 import { useRef, useState } from "react";
 import toast from "react-hot-toast";
 
 const AddAlbumDialog = () => {
+    const {updateAlbum } = useAdminStore();
 	const [albumDialogOpen, setAlbumDialogOpen] = useState(false);
 	const [isLoading, setIsLoading] = useState(false);
 	const fileInputRef = useRef<HTMLInputElement>(null);
@@ -48,11 +50,13 @@ const AddAlbumDialog = () => {
 			formData.append("releaseYear", newAlbum.releaseYear.toString());
 			formData.append("imageFile", imageFile);
 
-			await API.post("/admin/albums", formData, {
+		const uploaded_album =	await API.post("/admin/album", formData, {
 				headers: {
+                    ...API.defaults.headers.common,
 					"Content-Type": "multipart/form-data",
 				},
 			});
+            updateAlbum(uploaded_album.data)
 
 			setNewAlbum({
 				title: "",

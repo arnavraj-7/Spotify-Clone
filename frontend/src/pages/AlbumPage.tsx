@@ -1,4 +1,4 @@
-import useAlbumStore from "@/stores/MusicStore.ts";
+import useAlbumStore from "@/stores/AlbumStore.ts";
 import { Clock3, Pause, Play, PlayCircle } from "lucide-react";
 import React, { useEffect, useState } from "react";
 import {SongCard} from "./cards/SongCard.tsx";

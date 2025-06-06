@@ -1,4 +1,4 @@
-import type { Album, Song } from "@/types";
+import type { Song } from "@/types";
 import React from "react";
 import { create } from "zustand";
 type PlayerStore = {
@@ -6,7 +6,7 @@ type PlayerStore = {
   queue: Song[];
   currentSong: Song | null;
   currentIndex: number;
-  audioRef: React.RefObject<HTMLAudioElement>;
+  audioRef: React.RefObject<HTMLAudioElement> | null;
   repeat: boolean;
   playAlbum: (songs: Song[], index: number) => void;
   setCurrentsong: (song: Song) => void;
@@ -25,7 +25,7 @@ const usePlayerStore = create<PlayerStore>((set, get) => {
     repeat:false,
     currentIndex: -1,
     queue: [],
-    audioRef: React.createRef<HTMLAudioElement>(),
+    audioRef:null,
     setAudioRef:(audioRef: React.RefObject<HTMLAudioElement>)=>set({audioRef}),
     initialiseQueue: (songs: Song[]) => {
       set({
