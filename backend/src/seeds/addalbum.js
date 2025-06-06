@@ -14,7 +14,7 @@ const seedDatabase = async () => {
     const createdAlbum = await Album.insertOne(
      {title: "Making Memories",
 				artist: "Karan Aujla",
-				imageUrl: "/albums/5.jpg",
+				imageUrl: "/albums/5.jpeg",
 				releaseYear: 2023,
 				songs:[]}
 

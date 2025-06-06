@@ -14,7 +14,7 @@ const router = Router();
 router.use(protectroute,isAdmin);
 
 
-router.post("/songs", createSong);
+router.post("/song", createSong);
 router.delete("/song/:_id", deleteSong);
 router.post("/album", createAlbum);
 router.delete("/album/:_id", deleteAlbum);
