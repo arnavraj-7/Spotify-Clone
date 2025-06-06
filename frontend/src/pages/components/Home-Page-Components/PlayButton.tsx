@@ -1,13 +1,13 @@
 import { Button } from '@/components/ui/button';
 import usePlayerStore from '@/stores/PlayerStore';
 import type { Song } from '@/types'
-import { PlayIcon } from 'lucide-react';
+import { Pause, PauseIcon, PlayIcon } from 'lucide-react';
 import React from 'react'
 
 const PlayButton = ({song}:{song:Song}) => {
     const {isPlaying,currentSong,setCurrentsong,togglePlay} = usePlayerStore();
   return (
-<Button className='w-8 h-8 bg-green-500 hover:bg-green-500' size={"icon"} onClick={()=>{
+<Button className='w-8 h-8 bg-green-500 hover:bg-green-500 cursor-pointer' size={"icon"} onClick={()=>{
     if(isPlaying&&currentSong?._id===song._id){
         togglePlay()
         return
@@ -16,7 +16,7 @@ const PlayButton = ({song}:{song:Song}) => {
     console.log("song clicked",song)
 }
     }>
-    <PlayIcon className='w-8 h-8' size={100} />
+    {!isPlaying?<PlayIcon className='w-8 h-8 \' size={100} />:<PauseIcon className='w-8 h-8' size={100} />}
 </Button>
 )
 }

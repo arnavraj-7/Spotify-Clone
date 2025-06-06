@@ -23,7 +23,7 @@ const Topbar = () => {
       <div className="flex justify-end items-center flex-col">
         {isAdmin && (
           <>
-            <Link to="/admin" className="flex items-center gap-x-2 bg-zinc-800 rounded-md p-2 hover:bg-zinc-900 hover:scale-104 transition-all ease-in duration-150">
+            <Link to="/admin/dashboard" className="flex items-center gap-x-2 bg-zinc-800 rounded-md p-2 hover:bg-zinc-900 hover:scale-104 transition-all ease-in duration-150">
               <LayoutDashboard className="size-4 mr-2"/>
               <span>Admin Dashboard</span>
             </Link>

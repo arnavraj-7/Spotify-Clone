@@ -5,17 +5,16 @@ import useSongStore from "@/stores/SongStore";
 import { Scrollbar } from "@radix-ui/react-scroll-area";
 import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
-import {shallow} from "zustand/shallow";
+import { shallow } from "zustand/shallow";
 const Trending = () => {
-  const { fetchTrendingSong, TrendingSong, } = useSongStore()
+  const { fetchTrendingSong, TrendingSong } = useSongStore();
   useEffect(() => {
-     if (TrendingSong == null || TrendingSong.length === 0) {
+    if (TrendingSong == null || TrendingSong.length === 0) {
       fetchTrendingSong();
     }
-   
   }, []);
   return (
-   <>
+    <>
       <div className=" mx-4 flex justify-between items-cente">
         <div className="text-2xl ml-3 font-bold">Trending</div>
         <div className="text-sm font-semibold text-zinc-700 hover:text-zinc-500 transition-all duration-150 ease-in ">
@@ -26,11 +25,7 @@ const Trending = () => {
         <div className="flex space-x-4">
           {TrendingSong
             ? TrendingSong.map((song) => {
-                return (
-                  <Link to={song._id} key={song._id}>
-                    <TrendingSongCard song={song} />
-                  </Link>
-                );
+                return <TrendingSongCard song={song} key={song._id} />;
               })
             : ""}
           <ScrollBar orientation="horizontal" />

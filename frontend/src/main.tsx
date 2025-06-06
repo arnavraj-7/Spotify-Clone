@@ -5,6 +5,7 @@ import App from "./App.tsx";
 import { ClerkProvider } from "@clerk/clerk-react";
 import { BrowserRouter,} from 'react-router-dom'
 import AuthProvider from "./provider/AuthProvider.tsx";
+import { Toaster } from "react-hot-toast";
 
 
 
@@ -19,6 +20,7 @@ createRoot(document.getElementById("root")!).render(
     <ClerkProvider publishableKey={PUBLISHABLE_KEY} afterSignOutUrl="/">
     <AuthProvider>
     <BrowserRouter>
+    <Toaster/>
       <App />
     </BrowserRouter>
     </AuthProvider>

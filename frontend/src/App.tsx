@@ -12,7 +12,9 @@ import Trending from "./pages/TrendingPage.tsx";
 import Topbar from "./components/ui/Topbar.tsx";
 import FullPlayer from "./pages/FullPlayer.tsx";
 import LocationProvider from "./provider/LocationProvider.tsx";
-import AdminPage from "./pages/AdminPage.tsx";
+import AdminPage from "./pages/Admin/AdminPage.tsx";
+import Albums from "./pages/Admin/Albums.tsx";
+import Songs from "./pages/Admin/Songs.tsx";
 
 function App() {
     return (
@@ -27,8 +29,11 @@ function App() {
           <Route path="/made-for-you" element={<><Topbar/><MadeForYou/></>} />          
           <Route path="/trending" element={<><Topbar/><Trending/></>} />        
           <Route path="song-player" element={<FullPlayer/>} />        
-          <Route path="admin-dashboard" element={<AdminPage/>} />        
         </Route>
+          <Route path="admin/dashboard" element={<AdminPage/>} >
+          <Route path="admin/albums" element={<Albums/>}/>
+          <Route path="admin/songs" element={<Songs/>}/>
+          </Route>        
       </Routes>
   );
 }

@@ -101,7 +101,7 @@ const AudioPlayerControls = () => {
             <Button
               size="icon"
               variant="ghost"
-              className="hidden sm:inline-flex hover:text-white text-zinc-400"
+              className="hidden  hover:text-white text-zinc-400 "
             >
               <Shuffle className="h-4 w-4" />
             </Button>
@@ -140,7 +140,7 @@ const AudioPlayerControls = () => {
             <Button
               size="icon"
               variant="ghost"
-              className={`hidden sm:inline-flex hover:text-white text-zinc-400 ${repeat?"bg-green-700 text-white":""}`}
+              className={` hover:text-white text-zinc-400 ${repeat?"bg-green-700 text-white":""}`}
               onClick={()=>{
                 console.log("repeat clicked");
                 setRepeat();
@@ -170,11 +170,12 @@ const AudioPlayerControls = () => {
         </div>
 
         {/* volume controls */}
+        {/* icons for queues and other things */}
         <div className="hidden sm:flex items-center gap-4 min-w-[180px] w-[30%] justify-end">
           <Button
             size="icon"
             variant="ghost"
-            className="hover:text-white text-zinc-400"
+            className={`hover:text-white text-zinc-400 ${!currentSong && "hidden"}`}
           >
             <Link to={`song-player`}>
               <Maximize2 className={`h-4 w-4 ${!currentSong && "hidden"}`} />
@@ -183,7 +184,7 @@ const AudioPlayerControls = () => {
           <Button
             size="icon"
             variant="ghost"
-            className="hover:text-white text-zinc-400"
+            className="hover:text-white text-zinc-400 hidden"
           >
             <ListMusic className="h-4 w-4" />
           </Button>

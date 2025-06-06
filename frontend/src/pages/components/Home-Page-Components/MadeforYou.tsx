@@ -13,7 +13,6 @@ const MadeforYou = () => {
     if (MadeforYouSong == null || MadeforYouSong.length === 0) {
       fetchMadeforYou();
     }
-
   }, []);
   return (
     <>
@@ -27,11 +26,7 @@ const MadeforYou = () => {
         <div className="flex space-x-4">
           {MadeforYouSong
             ? MadeforYouSong.map((song) => {
-                return (
-                  <Link to={`song/${song._id}`} key={song._id}>
-                    <TrendingSongCard song={song} />
-                  </Link>
-                );
+                return <TrendingSongCard song={song} key={song._id} />;
               })
             : ""}
           <Scrollbar orientation="horizontal" />

@@ -15,9 +15,9 @@ router.use(protectroute,isAdmin);
 
 
 router.post("/songs", createSong);
-router.delete("/songs/:id", deleteSong);
+router.delete("/song/:_id", deleteSong);
 router.post("/album", createAlbum);
-router.delete("/album/:id", deleteAlbum);
+router.delete("/album/:_id", deleteAlbum);
 router.get("/dashboard", adminDashboard);
 
 export default router;
