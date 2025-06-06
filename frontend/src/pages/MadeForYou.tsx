@@ -1,22 +1,10 @@
 import TrendingSongCard from "@/pages/cards/TrendingSongCard";
 import useSongStore from "@/stores/SongStore";
-import { useAuth } from "@clerk/clerk-react";
-import { useEffect } from "react";
 import { Link } from "react-router-dom";
 const MadeForYou = () => {
-  const { getToken } = useAuth();
-  const fetchMadeforYou = useSongStore((s) => s.fetchMadeforYou);
+
   const MadeforYouSong = useSongStore((s) => s.MadeforYouSong);
-  useEffect(() => {
-    async function fetchData() {
-      const token = await getToken();
-      if (token === null) {
-        return;
-      }
-      fetchMadeforYou(token);
-    }
-    fetchData();
-  }, []);
+
   return (
     <>
       <div className="flex flex-col justify-center  bg-gradient-to-b from-zinc-800 to zinc-900">

@@ -15,7 +15,7 @@ const FriendsandActivity = () => {
             fetchUsers(token);
         }
         fetchData();
-    },[getToken])
+    },[getToken,fetchUsers])
   return (
     <div className='bg-zinc-900 rounded-md h-[calc(100vh-114px)]'>
         <div className='font-bold flex gap-x-2 items-center mb-3'>
