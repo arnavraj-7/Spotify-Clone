@@ -2,6 +2,22 @@ import API from "@/lib/axios";
 import type Albums from "@/pages/Admin/Albums";
 import { create } from "zustand";
 import { toast } from "react-hot-toast";
+import type { Album, Song } from "@/types";
+type AdminStore = {
+  songs: Song[];
+  albums: Album[];
+  users: number;
+  totalsongs: number;
+  totalalbums: number;
+  totalartists: number;
+  isLoading: boolean;
+  error: string | null;
+  getStats: () => Promise<void>;
+  getAllSongs: () => Promise<void>;
+  getAllAlbums: () => Promise<void>;
+  deleteSong: (id: string) => Promise<void>;
+  deleteAlbum: (id: string) => Promise<void>;
+};
 
 export const useAdminStore = create((set, get) => {
   return {
@@ -71,16 +87,20 @@ export const useAdminStore = create((set, get) => {
       }
     },
     async deleteAlbum(id: string) {
-       try {
+      try {
         const res = await toast.promise(API.delete(`/admin/album/${id}`), {
           loading: "⌛Loading",
           success: "Album deleted successfully!",
           error: "Error in deleting album.",
         });
         console.log(res.data);
+        const updatedsongs = get().songs.filter((song) => song.albumId !== id);
+
         set({
+          songs: updatedsongs,
           albums: get().albums.filter((album) => album._id !== id),
-          totalsongs: get().totalalbums - 1,
+          totalalbums: get().totalalbums - 1,
+          totalsongs: updatedsongs.length,
         });
       } catch (error) {
         console.log(error);
