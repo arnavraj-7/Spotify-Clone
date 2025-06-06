@@ -13,6 +13,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import API from "@/lib/axios";
 import { useAdminStore } from "@/stores/AdminStore";
 import { Plus, Upload } from "lucide-react";
+import {useAuth} from '@clerk/clerk-react';
 import { useRef, useState } from "react";
 import toast from "react-hot-toast";
 
@@ -24,6 +25,7 @@ interface NewSong {
 }
 
 const AddSongDialog = () => {
+	const {getToken }= useAuth();
 	const { albums,updateSong } = useAdminStore();
 	const [songDialogOpen, setSongDialogOpen] = useState(false);
 	const [isLoading, setIsLoading] = useState(false);
@@ -45,7 +47,7 @@ const AddSongDialog = () => {
 
 	const handleSubmit = async () => {
 		setIsLoading(true);
-
+		const token = await getToken()
 		try {
 			if (!files.audio || !files.image) {
 				return toast.error("Please upload both audio and image files");
@@ -65,7 +67,7 @@ const AddSongDialog = () => {
 
 		const uploaded_song	= await API.post("/admin/song", formData, {
 				headers: {
-                    ...API.defaults.headers.common,
+                    "Authorization":`Bearer ${token}`,
 					"Content-Type": "multipart/form-data",
 				},
 			});

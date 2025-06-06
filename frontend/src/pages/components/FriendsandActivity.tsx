@@ -1,13 +1,21 @@
 import { Users2Icon } from 'lucide-react'
-import React, { use, useEffect } from 'react'
+import  {  useEffect } from 'react'
 import UserCard from '../cards/UserCard'
 import useChatStore from '@/stores/ChatStore';
+import { useAuth } from '@clerk/clerk-react';
 
 const FriendsandActivity = () => {
-    const {users,fetchUsers,isLoading,error}=useChatStore();
+    const {getToken}=useAuth();
+    const {users,fetchUsers,}=useChatStore();
     useEffect(()=>{
-        fetchUsers();
-    },[])
+        async function fetchData(){
+           
+            const token = await getToken();
+            if(token===null) return
+            fetchUsers(token);
+        }
+        fetchData();
+    },[getToken])
   return (
     <div className='bg-zinc-900 rounded-md h-[calc(100vh-114px)]'>
         <div className='font-bold flex gap-x-2 items-center mb-3'>

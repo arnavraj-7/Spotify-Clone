@@ -2,9 +2,11 @@ import { Button, buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { useAdminStore } from "@/stores/AdminStore";
 import type { Song } from "@/types/index.js";
+import { useAuth } from "@clerk/clerk-react";
 import { Trash } from "lucide-react";
 
 const SongCard_admin = ({ song, rank,isPlaying }: { song: Song, rank: number,}) => {
+  const {getToken } = useAuth();
     const {deleteSong,}=useAdminStore();
    const handleDuration = (duration: number): string => {
     if (duration < 60) {
@@ -58,8 +60,11 @@ const SongCard_admin = ({ song, rank,isPlaying }: { song: Song, rank: number,}) 
           </div>
           <div className="ml-5">
             <Button className="text-red-400 bg-zinc-800 hover:bg-red-500 hover:text-white transition-all duration-200 ease-in-out" 
-            onClick={()=>{
-                deleteSong(song._id)
+            onClick={async()=>{
+              const token =await getToken();
+              if(token===null) return;
+
+                deleteSong(song._id,token)
             }}>
                 
                 <Trash size={20} />

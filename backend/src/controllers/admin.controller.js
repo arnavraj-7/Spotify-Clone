@@ -86,7 +86,7 @@ const deleteSong = async (req, res, next) => {
 const createAlbum = async (req, res, next) => {
   try {
     //initial check for all fields
-    if (!req.file.imageFile || !req.body.title || !req.body.artist) {
+    if (!req.files.imageFile || !req.body.title || !req.body.artist) {
       res.status(400).json({
         message: "Send all the required fields.",
       });
@@ -94,7 +94,7 @@ const createAlbum = async (req, res, next) => {
     }
     //extract data from req
     const { title, releaseDate, artist } = req.body;
-    const imageFile = req.file.imageFile;
+    const imageFile = req.files.imageFile;
     //upload to cloudinary
     const imageUrl = await uploadtoCloudinary(imageFile);
     const new_album = await Album.create({

@@ -1,18 +1,24 @@
 import { ScrollArea } from "@/components/ui/scroll-area";
-import HomeSongCard from "@/pages/cards/HomeSongCard";
 import TrendingSongCard from "@/pages/cards/TrendingSongCard";
 import useSongStore from "@/stores/SongStore";
-import { ScrollAreaScrollbar, Scrollbar } from "@radix-ui/react-scroll-area";
-import { Key } from "lucide-react";
-import React, { useEffect } from "react";
+import { useAuth } from "@clerk/clerk-react";
+import { Scrollbar } from "@radix-ui/react-scroll-area";
+import { useEffect } from "react";
 import { Link } from "react-router-dom";
-import { shallow } from "zustand/shallow";
 const MadeforYou = () => {
+ const { getToken } = useAuth();
   const { fetchMadeforYou, MadeforYouSong } = useSongStore();
   useEffect(() => {
-    if (MadeforYouSong == null || MadeforYouSong.length === 0) {
-      fetchMadeforYou();
-    }
+      async function fetchData() {
+        const token = await getToken();
+        if (token === null) {
+          return;
+        }
+  console.log("fired fetchmadefrou");        
+        fetchMadeforYou(token);
+      }
+      fetchData();
+ 
   }, []);
   return (
     <>

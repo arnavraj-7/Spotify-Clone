@@ -13,9 +13,11 @@ import API from "@/lib/axios";
 import { useAdminStore } from "@/stores/AdminStore";
 import { Plus, Upload } from "lucide-react";
 import { useRef, useState } from "react";
+import {useAuth} from '@clerk/clerk-react';
 import toast from "react-hot-toast";
 
 const AddAlbumDialog = () => {
+	const {getToken} = useAuth();
     const {updateAlbum } = useAdminStore();
 	const [albumDialogOpen, setAlbumDialogOpen] = useState(false);
 	const [isLoading, setIsLoading] = useState(false);
@@ -38,7 +40,7 @@ const AddAlbumDialog = () => {
 
 	const handleSubmit = async () => {
 		setIsLoading(true);
-
+		const token = await getToken();
 		try {
 			if (!imageFile) {
 				return toast.error("Please upload an image");
@@ -52,7 +54,7 @@ const AddAlbumDialog = () => {
 
 		const uploaded_album =	await API.post("/admin/album", formData, {
 				headers: {
-                    ...API.defaults.headers.common,
+                    "Authorization":`Bearer ${token}`,
 					"Content-Type": "multipart/form-data",
 				},
 			});
@@ -66,7 +68,7 @@ const AddAlbumDialog = () => {
 			setImageFile(null);
 			setAlbumDialogOpen(false);
 			toast.success("Album created successfully");
-		} catch (error: any) {
+		} catch (error) {
 			toast.error("Failed to create album: " + error.message);
 		} finally {
 			setIsLoading(false);

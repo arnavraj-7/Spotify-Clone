@@ -4,7 +4,7 @@ import { create } from "zustand";
 
 type SongStore = {
   fetchFeaturedSong(): Promise<void>;
-  fetchMadeforYou(): Promise<void>;
+  fetchMadeforYou(token:string): Promise<void>;
   fetchTrendingSong(): Promise<void>;
 
   featuredSong: Song[];        
@@ -40,10 +40,10 @@ const useSongStore = create<SongStore>((set) => ({
     }
   },
 
-  fetchMadeforYou: async () => {
+  fetchMadeforYou: async (token: string) => {
     try {
       set({ isLoadingMadeForYou: true, error: null });
-      const res = await API.get("/song/made-for-you");
+      const res = await API.get("/song/made-for-you",{headers:{Authorization:`Bearer ${token}`}});
       set({ MadeforYouSong: res.data });
     } catch (error) {
       console.error(error);

@@ -11,11 +11,11 @@ type AdminStore = {
   totalartists: number;
   isLoading: boolean;
   error: string | null;
-  getStats: () => Promise<void>;
-  getAllSongs: () => Promise<void>;
-  getAllAlbums: () => Promise<void>;
-  deleteSong: (id: string) => Promise<void>;
-  deleteAlbum: (id: string) => Promise<void>;
+  getStats: (token:string) => Promise<void>;
+  getAllSongs: (token:string) => Promise<void>;
+  getAllAlbums: (token:string) => Promise<void>;
+  deleteSong: (id: string,token:string) => Promise<void>;
+  deleteAlbum: (id: string,token:string) => Promise<void>;
   updateSong:(song:Song)=>void
   updateAlbum:(album:Album)=>void
 };
@@ -30,10 +30,10 @@ export const useAdminStore = create<AdminStore>((set, get) => {
     totalartists: 0,
     isLoading: false,
     error: null,
-    getStats: async () => {
+    getStats: async (token:string) => {
       set({ isLoading: true });
       try {
-        const stats = await API.get("/stats/");
+        const stats = await API.get("/stats/",{headers:{Authorization:`Bearer ${token}`} });
         const { Total_Songs, Total_Albums, Total_Artists, Total_Users } =
           stats.data;
         set({
@@ -49,10 +49,10 @@ export const useAdminStore = create<AdminStore>((set, get) => {
         set({ isLoading: false });
       }
     },
-    getAllSongs: async () => {
+    getAllSongs: async (token:string) => {
       set({ isLoading: true });
       try {
-        const songs = await API.get("/song/");
+        const songs = await API.get("/song/",{headers:{Authorization:`Bearer ${token}`}});
         set({ songs: songs.data, isLoading: false });
       } catch (error) {
         console.log(error);
@@ -60,10 +60,10 @@ export const useAdminStore = create<AdminStore>((set, get) => {
         set({ isLoading: false });
       }
     },
-    getAllAlbums: async () => {
+    getAllAlbums: async (token:string) => {
       set({ isLoading: true });
       try {
-        const albums = await API.get("/album/");
+        const albums = await API.get("/album/",{headers:{Authorization:`Bearer ${token}`} });
         set({ albums: albums.data, isLoading: false });
       } catch (error) {
         console.log(error);
@@ -71,9 +71,9 @@ export const useAdminStore = create<AdminStore>((set, get) => {
         set({ isLoading: false });
       }
     },
-    async deleteSong(id: string) {
+    async deleteSong(id: string,token:string) {
       try {
-        const res = await toast.promise(API.delete(`/admin/song/${id}`), {
+        const res = await toast.promise(API.delete(`/admin/song/${id}`,{headers:{Authorization:`Bearer ${token}`} }), {
           loading: "⌛Loading",
           success: "Song deleted successfully!",
           error: "Error in deleting song.",
@@ -87,9 +87,9 @@ export const useAdminStore = create<AdminStore>((set, get) => {
         console.log(error);
       }
     },
-    async deleteAlbum(id: string) {
+    async deleteAlbum(id: string,token :string) {
       try {
-        const res = await toast.promise(API.delete(`/admin/album/${id}`), {
+        const res = await toast.promise(API.delete(`/admin/album/${id}`,{headers:{Authorization:`Bearer ${token}`} }), {
           loading: "⌛Loading",
           success: "Album deleted successfully!",
           error: "Error in deleting album.",

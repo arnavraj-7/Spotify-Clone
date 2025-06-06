@@ -6,7 +6,7 @@ type ChatStore = {
   users: User[] | [];
   error: string | null;
   isLoading: boolean;
-  fetchUsers:()=> Promise<void>;
+  fetchUsers: (token: string) => Promise<void>;
 };
 
 const useChatStore = create<ChatStore>((set) => {
@@ -14,13 +14,13 @@ const useChatStore = create<ChatStore>((set) => {
     error: null,
     isLoading: false,
     users: [],
-    fetchUsers : async () => {
+    fetchUsers: async (token:string) => {
       try {
         set({ isLoading: true });
-        const users = await API.get("/user");
+        const users = await API.get("/user",{headers:{Authorization:`Bearer ${token}`}});
         set({ users: users.data });
       } catch (err) {
-        set({ error: "Error in fetching users", });
+        set({ error: "Error in fetching users" });
         console.log("Error in fetching users:", err);
       } finally {
         set({ isLoading: false });
@@ -28,4 +28,4 @@ const useChatStore = create<ChatStore>((set) => {
     },
   };
 });
-export default useChatStore; 
+export default useChatStore;

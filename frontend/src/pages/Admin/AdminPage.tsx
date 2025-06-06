@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { useAdminStore } from "@/stores/AdminStore";
-import { UserButton } from "@clerk/clerk-react";
+import { useAuth, UserButton } from "@clerk/clerk-react";
 import {
   BookAudioIcon,
   BrushIcon,
@@ -13,6 +13,7 @@ import React, { useEffect } from "react";
 import { Link, NavLink, Outlet } from "react-router-dom";
 
 const AdminPage = () => {
+  const { getToken } = useAuth();
   const [ActiveSongs, setActiveSongs] = React.useState(true);
   const [ActiveAlbums, setActiveAlbums] = React.useState(false);
   const {
@@ -25,10 +26,18 @@ const AdminPage = () => {
     getAllSongs,
   } = useAdminStore();
   useEffect(() => {
-    getStats();
-    getAllSongs();
-    getAllAlbums();
-  }, []);
+    async function fetchData() {
+      const token: string | null = await getToken();
+      if (token === null) {
+        return;
+      }
+      getStats(token);
+      getAllSongs(token);
+      getAllAlbums(token);
+      console.log("requested to backend for stats");
+    }
+    fetchData();
+  }, [getToken, getAllAlbums, getAllSongs, getStats]);
 
   return (
     <div className="p-4">
@@ -100,43 +109,49 @@ const AdminPage = () => {
 
         <div className="flex flex-row gap-x-1">
           <div>
-            <Button className={ActiveSongs ? "hover:bg-green-900" : "bg-zinc-800"}>
-              <NavLink
-                to="admin/songs"
-                className={({isActive}) => {
-                  if (isActive) {
-                    setActiveSongs(true);
-                    setActiveAlbums(false);
-                  } 
-                  return isActive
-                    ? "flex items-center gap-x-2 text-white"
-                    : "flex items-center gap-x-2 ";
-                }}
+            <NavLink
+              to=""
+              className={({ isActive }) => {
+                if (isActive) {
+                  setActiveSongs(true);
+                  setActiveAlbums(false);
+                }
+                return isActive
+                  ? "flex items-center gap-x-2 text-white"
+                  : "flex items-center gap-x-2 text-white";
+              }}
+            >
+              <Button
+                className={ActiveSongs ? "hover:bg-green-900 hover: text-white" : "bg-zinc-800"}
               >
                 <Music size={20} />
                 Songs
-              </NavLink>
-            </Button>
+              </Button>
+            </NavLink>
           </div>
 
           <div>
-            <Button className={`${ActiveAlbums ? "hover:bg-green-900" : "bg-zinc-800"}`}>
-              <NavLink
-                to="admin/albums"
-                className={({isActive}) => {
-                   if (isActive) {
-                    setActiveAlbums(true);
-                    setActiveSongs(false);
-                  } 
-                  return isActive
-                    ? "flex items-center gap-x-2 text-white"
-                    : "flex items-center gap-x-2";
-                }}
+            <NavLink
+              to="albums"
+              className={({ isActive }) => {
+                if (isActive) {
+                  setActiveAlbums(true);
+                  setActiveSongs(false);
+                }
+                return isActive
+                  ? "flex items-center gap-x-2 text-white"
+                  : "flex items-center gap-x-2 text-white";
+              }}
+            >
+              <Button
+                className={`${
+                  ActiveAlbums ? "hover:bg-green-900 hover: text-white" : "bg-zinc-800"
+                }`}
               >
                 <BookAudioIcon size={20} className="" />
                 Albums
-              </NavLink>
-            </Button>
+              </Button>
+            </NavLink>
           </div>
         </div>
       </div>

@@ -3,31 +3,35 @@ import { Slider } from "@/components/ui/slider";
 import { Link } from "react-router-dom";
 import usePlayerStore from "@/stores/PlayerStore";
 import {
-  Laptop2,
   ListMusic,
   Maximize2,
-  Mic2,
   Pause,
   Play,
   Repeat,
   Shuffle,
   SkipBack,
   SkipForward,
-  Sliders,
-  Volume1,
   Volume2,
   VolumeX,
 } from "lucide-react";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 const AudioPlayerControls = () => {
-  const { isPlaying, playNext, playPrev, togglePlay, currentSong,setRepeat,repeat ,audioRef} =
-    usePlayerStore();
+  const {
+    isPlaying,
+    playNext,
+    playPrev,
+    togglePlay,
+    currentSong,
+    setRepeat,
+    repeat,
+    audioRef,
+  } = usePlayerStore();
   const [volume, setVolume] = useState(75);
   const [currenttime, setCurrenttime] = useState(0);
   const [duration, setDuration] = useState(0);
-  const handleDuration = (duration: number): string => {
-    if(!duration) return "";
+  const handleDuration = (duration: number | null): string => {
+    if (!duration) return "";
     if (duration < 60) {
       if (duration < 10) return "0:0" + String(duration);
       return "0:" + String(duration);
@@ -35,21 +39,21 @@ const AudioPlayerControls = () => {
       return (
         String(Math.floor(duration / 60)) +
         ":" +
-        (parseInt(duration % 60) > 10
+        (duration % 60 > 10
           ? String(duration % 60)
           : "0" + String(duration % 60))
       );
     }
   };
   const handleSeek = (value: number[]) => {
+    if(audioRef == null) return ;
     if (audioRef.current) {
       audioRef.current.currentTime = value[0];
     }
   };
 
   useEffect(() => {
-    audioRef.current = document.querySelector("audio");
-
+    if(audioRef == null) return ;
     const audio = audioRef.current;
     if (!audio) return;
 
@@ -70,7 +74,7 @@ const AudioPlayerControls = () => {
       audio.removeEventListener("loadedmetadata", updateDuration);
       audio.removeEventListener("ended", handleEnded);
     };
-  }, [audioRef.current]);
+  }, [audioRef]);
   return (
     <footer className="h-30  sm:h-24 bg-zinc-900 border-t border-zinc-800 px-4">
       <div className="flex justify-between items-center h-full max-w-[1800px] mx-auto">
@@ -140,8 +144,10 @@ const AudioPlayerControls = () => {
             <Button
               size="icon"
               variant="ghost"
-              className={` hover:text-white text-zinc-400 ${repeat?"bg-green-700 text-white":""}`}
-              onClick={()=>{
+              className={` hover:text-white text-zinc-400 ${
+                repeat ? "bg-green-700 text-white" : ""
+              }`}
+              onClick={() => {
                 console.log("repeat clicked");
                 setRepeat();
               }}
@@ -164,7 +170,7 @@ const AudioPlayerControls = () => {
               }}
             />
             <div className="text-xs text-zinc-400">
-              {handleDuration(currentSong?.duration)}
+              {currentSong?handleDuration(currentSong.duration):""}
             </div>
           </div>
         </div>
@@ -175,7 +181,9 @@ const AudioPlayerControls = () => {
           <Button
             size="icon"
             variant="ghost"
-            className={`hover:text-white text-zinc-400 ${!currentSong && "hidden"}`}
+            className={`hover:text-white text-zinc-400 ${
+              !currentSong && "hidden"
+            }`}
           >
             <Link to={`song-player`}>
               <Maximize2 className={`h-4 w-4 ${!currentSong && "hidden"}`} />
@@ -202,7 +210,7 @@ const AudioPlayerControls = () => {
                 }
               }}
             >
-              {audioRef?.current?.volume > 0 ? (
+              {audioRef && audioRef?.current?.volume > 0 ? (
                 <Volume2 className="h-4 w-4" />
               ) : (
                 <VolumeX className="h-4 w-4" />
@@ -216,6 +224,7 @@ const AudioPlayerControls = () => {
               className="w-24 hover:cursor-grab active:cursor-grabbing"
               onValueChange={(value) => {
                 setVolume(value[0]);
+                if(!audioRef) return;
                 if (audioRef.current) {
                   audioRef.current.volume = value[0] / 100;
                 }

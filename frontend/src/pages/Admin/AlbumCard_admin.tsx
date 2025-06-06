@@ -1,19 +1,14 @@
 import { Button, buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { useAdminStore } from "@/stores/AdminStore";
-import type { Album, Song } from "@/types/index.js";
+import type { Album } from "@/types/index.js";
+import { useAuth } from "@clerk/clerk-react";
 
 import { Trash } from "lucide-react";
 
-const AlbumCard_admin = ({ album, rank,isPlaying }: { album: Album, rank: number,}) => {
-    const {deleteAlbum,getAllAlbums}=useAdminStore();
-   const handleDuration = (duration: number): string => {
-    if (duration < 60) {
-      return "0:" + String(duration);
-    } else {
-      return String(Math.floor(duration / 60)) + ":" + ((duration%60)>10?String(duration % 60):"0"+String(duration % 60));
-    }
-  };
+const AlbumCard_admin = ({ album, rank }: { album: Album; rank: number }) => {
+  const { getToken } = useAuth();
+  const { deleteAlbum } = useAdminStore();
   return (
     <div
       className={cn(
@@ -31,7 +26,7 @@ const AlbumCard_admin = ({ album, rank,isPlaying }: { album: Album, rank: number
           <div className="flex items-center">
             <div>
               <div className="w-6 flex items-center mr-4">
-               <span className="font-normal text-gray-400">{rank}</span>
+                <span className="font-normal text-gray-400">{rank}</span>
               </div>
             </div>
             <div className="mr-3">
@@ -52,18 +47,23 @@ const AlbumCard_admin = ({ album, rank,isPlaying }: { album: Album, rank: number
         {/* stats group */}
         <div className="flex items-center">
           <div className="ml-5">
-            <Button className="z-10 text-red-400 bg-zinc-800 hover:bg-red-500 hover:text-white transition-all duration-200 ease-in-out" 
-            onClick={()=>{
-                deleteAlbum(album._id)
-
-            }}>
-                
-                <Trash size={20} />
-                </Button></div>
+            <Button
+              className="z-10 text-red-400 bg-zinc-800 hover:bg-red-500 hover:text-white transition-all duration-200 ease-in-out"
+              onClick={async() => {
+                const token = await getToken();
+                if (token === null) {
+                  return;
+                }
+                deleteAlbum(album._id,token);
+              }}
+            >
+              <Trash size={20} />
+            </Button>
+          </div>
         </div>
       </div>
     </div>
   );
 };
 
-export { AlbumCard_admin};
+export { AlbumCard_admin };
