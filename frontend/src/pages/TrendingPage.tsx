@@ -1,11 +1,7 @@
-import { ScrollArea } from "@/components/ui/scroll-area";
-import HomeSongCard from "@/pages/cards/HomeSongCard";
 import TrendingSongCard from "@/pages/cards/TrendingSongCard";
 import useSongStore from "@/stores/SongStore";
-import { ScrollAreaScrollbar, Scrollbar } from "@radix-ui/react-scroll-area";
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import { Link } from "react-router-dom";
-import {shallow} from "zustand/shallow";
 
 const TrendingPage = () => {
   const { fetchTrendingSong, TrendingSong, } = useSongStore();
@@ -14,7 +10,7 @@ const TrendingPage = () => {
       fetchTrendingSong();
     }
   
-  }, []);
+  }, [fetchTrendingSong]);
   return (
     <>
     <div className="flex flex-col justify-center  bg-gradient-to-b from-zinc-800 to zinc-900">

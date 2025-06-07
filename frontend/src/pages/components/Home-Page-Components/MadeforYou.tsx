@@ -6,20 +6,20 @@ import { Scrollbar } from "@radix-ui/react-scroll-area";
 import { useEffect } from "react";
 import { Link } from "react-router-dom";
 const MadeforYou = () => {
- const { getToken } = useAuth();
+  const { getToken } = useAuth();
   const { fetchMadeforYou, MadeforYouSong } = useSongStore();
   useEffect(() => {
-      async function fetchData() {
-        const token = await getToken();
-        if (token === null) {
-          return;
-        }
-  console.log("fired fetchmadefrou");        
-        fetchMadeforYou(token);
+    async function fetchData() {
+      if (MadeforYouSong.length > 0) return;
+      const token = await getToken();
+      if (token === null) {
+        return;
       }
-      fetchData();
- 
-  }, []);
+      console.log("fired fetchmadefrou");
+      fetchMadeforYou(token);
+    }
+    fetchData();
+  }, [MadeforYouSong.length]);
   return (
     <>
       <div className=" mx-4 flex justify-between items-center">

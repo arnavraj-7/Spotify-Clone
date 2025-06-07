@@ -1,13 +1,12 @@
 import Topbar from "@/components/ui/Topbar";
 import useSongStore from "@/stores/SongStore";
-import { SignedIn, SignOutButton } from "@clerk/clerk-react";
-import Trending from "./components/Home-Page-Components/trending.tsx";
+import { SignedIn } from "@clerk/clerk-react";
+import Trending from "./components/Home-Page-Components/Trending.tsx";
 import Featured from "./components/Home-Page-Components/Featured.tsx";
 import MadeforYou from "./components/Home-Page-Components/MadeforYou.tsx";
 import FeaturedGridSkeleton from "@/skeletons/FeaturedGridSkeleton.tsx";
 import MadeforYouGridSkeleton from "@/skeletons/MadeforYouGridSkeleton.tsx";
-import { shallow } from "zustand/shallow";
-import { ScrollArea } from "@/components/ui/scroll-area.tsx";
+
 const HomePage = () => {
   const { isLoadingFeatured, isLoadingMadeForYou, isLoadingTrending } =
     useSongStore();
@@ -22,8 +21,8 @@ const HomePage = () => {
 
           {/* Six Songs */}
           <div className="ml-8">
-            {/* {isLoadingFeatured ? <FeaturedGridSkeleton /> : <Featured />} */}
-            <Featured />
+            {isLoadingFeatured ? <FeaturedGridSkeleton /> : <Featured />}
+            {/* <Featured /> */}
           </div>
           <SignedIn>
             <div className="">

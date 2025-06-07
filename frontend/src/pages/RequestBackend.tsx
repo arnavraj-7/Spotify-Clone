@@ -3,6 +3,7 @@ import API from "@/lib/axios";
 import { useState } from "react";
 const RequestBackend = () => {
   const [res, setRes] = useState("");
+  console.log(res);
   const RequestBackend = async () => {
     try {
       const res = await API.get("/admin/dashboard");
