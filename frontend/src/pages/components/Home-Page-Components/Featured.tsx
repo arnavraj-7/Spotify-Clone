@@ -1,7 +1,7 @@
 import HomeSongCard from "@/pages/cards/HomeSongCard";
 import useSongStore from "@/stores/SongStore";
-import React, { useEffect } from "react";
-import {shallow} from "zustand/shallow";const Featured = () => {
+import { useEffect } from "react";
+const Featured = () => {
   const { fetchFeaturedSong, featuredSong } = useSongStore();
   useEffect(() => {
     if(featuredSong.length==0 || featuredSong==null){
@@ -13,7 +13,7 @@ useEffect(()=>{
   console.log(featuredSong);
 },[featuredSong])
   return (
-    <div className="grid grid-cols-2 sm:grid-col-1 md:grid-cols-3 gap-x-4 gap-y-4 w-full">
+    <div className="grid grid-cols-2 ml-2 md:grid-cols-3 md:gap-x-4 gap-x-2 gap-y-2 md:gap-y-4 w-full">
       {featuredSong
         ? featuredSong.map((song) => {
             return <HomeSongCard song={song} key={song._id} />;

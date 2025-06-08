@@ -4,10 +4,11 @@ import React, { useEffect } from "react";
 const AudioPlayer = () => {
   const audioRef = React.useRef<HTMLAudioElement>(null);
   const prevSongRef = React.useRef<string | null>(null);
-  const { currentSong, isPlaying, playNext, repeat, setAudioRef } =
+  const { currentSong, isPlaying, playNext, repeat, setAudioRef,setPlaying,queue } =
     usePlayerStore();
   //declare audioRef globally
   useEffect(() => {
+   
     setAudioRef(audioRef);
   }, [setAudioRef]);
 
@@ -32,18 +33,25 @@ const AudioPlayer = () => {
     const audio = audioRef.current;
     const handleEnded = () => {
       
-      if (!audio) return;
       console.log("song ended.");
+      if (!audio) return;
+      if(queue.length==0) {
+        console.log("queue is null");
+        setPlaying(false);
+        return
+        } ;
       if (repeat) {
-      audio.onloadedmetadata = null
+        audio.onloadedmetadata = null
         audio.src = currentSong?.audioUrl;
         console.log("repeat true");
         audio.currentTime = 0;
         audio.onloadedmetadata=()=>{audio.play();}
-      } else {
+      } 
+      
+      else {
         console.log("repeat false");
         playNext()
-      }
+      } 
       
     };
       audio?.addEventListener("ended", handleEnded);
@@ -58,6 +66,11 @@ const AudioPlayer = () => {
     if (!audioRef.current || !currentSong) return;
 
     const audio = audioRef.current;
+    if(prevSongRef==null){
+      prevSongRef.current = currentSong?.audioUrl
+      return;
+    }
+  
     //check if this is new song
     const isSongChange = prevSongRef.current != currentSong?.audioUrl;
     if (isSongChange) {
@@ -78,7 +91,6 @@ const AudioPlayer = () => {
     <>
       <audio
         ref={audioRef}
-        src={currentSong?.audioUrl ? currentSong.audioUrl : null}
       />
     </>
   );

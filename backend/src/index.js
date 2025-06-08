@@ -13,13 +13,19 @@ import authRoute from "./routes/auth.route.js";
 import fileUpload from "express-fileupload";
 import path from "path";
 import { handleError } from "./middleware/error.middleware.js";
+import { createServer } from "http";
+import { initializeSocket } from "./lib/socket.js";
 
 dotenv.config();
 
 const app = express();
 const __dirname = path.resolve();
-
 const PORT = process.env.PORT || 3000;
+
+const httpServer = createServer(app);
+// initializeSocket(httpServer)
+
+
 
 //Global Middlewares
 app.use(cors({
@@ -57,7 +63,7 @@ app.use(handleError); //handles the errors from all routes
 
 connectDB()
   .then(() => {
-    app.listen(PORT, () => {
+    httpServer.listen(PORT, () => {
       console.log(`Server is running on port ${PORT}`);
     });
   })

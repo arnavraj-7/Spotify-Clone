@@ -58,11 +58,11 @@ const SongCard = ({ song, rank,isPlaying }: { song: Song, rank: number,isPlaying
           </div>
         </div>
         {/* stats group */}
-        <div className="flex">
-          <div className="text-gray-400 text-[14px] mr-35">
+        <div className="flex items-center">
+          <div className="text-gray-400 text-[14px] -mr-3 md:mr-35">
             {handleDuration(song.duration)}
           </div>
-          <div className=" text-gray-400 text-[14px]">
+          <div className=" text-gray-400 text-[14px] md:block hidden ">
             {new Date(song.createdAt || 0).toLocaleDateString()}
           </div>
         </div>

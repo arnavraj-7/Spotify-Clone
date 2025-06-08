@@ -3,7 +3,7 @@ import React from "react";
 import { create } from "zustand";
 type PlayerStore = {
   isPlaying: boolean;
-  queue: Song[];
+  queue: Song[] | [];
   currentSong: Song | null;
   currentIndex: number;
   audioRef: React.RefObject<HTMLAudioElement> | null;
@@ -15,19 +15,22 @@ type PlayerStore = {
   playNext: () => void;
   playPrev: () => void;
   setRepeat: () => void;
-  setAudioRef:(audioRef: React.RefObject<HTMLAudioElement>)=>void;
+  setPlaying: (bool: boolean) => void;
+  setAudioRef: (audioRef: React.RefObject<HTMLAudioElement>) => void;
 };
 
 const usePlayerStore = create<PlayerStore>((set, get) => {
   return {
     currentSong: null,
     isPlaying: false,
-    repeat:false,
+    repeat: false,
     currentIndex: -1,
     queue: [],
-    audioRef:null,
-    setAudioRef:(audioRef: React.RefObject<HTMLAudioElement>)=>set({audioRef}),
-    initialiseQueue: (songs: Song[]) => {
+    audioRef: null,
+    setAudioRef: (audioRef: React.RefObject<HTMLAudioElement>) =>
+      set({ audioRef }),
+    initialiseQueue: (songs: Song[] | []) => {
+      if (songs.length === 0) return;
       set({
         queue: songs,
         currentSong: get().currentSong || songs[0],
@@ -43,10 +46,14 @@ const usePlayerStore = create<PlayerStore>((set, get) => {
       });
     },
     setCurrentsong(song: Song) {
+      const queue = get().queue;
+
+      if (queue.length === 0) {
+        set({ currentSong: song, isPlaying: true });
+        return;
+      }
       if (song) {
-        const songIndex = get().queue.findIndex(
-          (s: Song) => s._id === song._id
-        );
+        const songIndex = queue.findIndex((s: Song) => s._id === song._id);
         set({
           currentSong: song,
           isPlaying: true,
@@ -66,6 +73,7 @@ const usePlayerStore = create<PlayerStore>((set, get) => {
     },
     playNext() {
       const { currentIndex, queue } = get();
+      if (queue.length==0) return;
       const nextIndex = currentIndex + 1;
       if (nextIndex < queue.length) {
         const nextSong = queue[nextIndex];
@@ -81,6 +89,7 @@ const usePlayerStore = create<PlayerStore>((set, get) => {
     },
     playPrev() {
       const { currentIndex, queue } = get();
+      if (queue.length==0) return;
 
       const prevIndex = currentIndex - 1;
       if (prevIndex >= 0) {
@@ -94,6 +103,9 @@ const usePlayerStore = create<PlayerStore>((set, get) => {
         set({ currentIndex: 0, currentSong: queue[0], isPlaying: true });
         return;
       }
+    },
+    setPlaying: (bool: boolean) => {
+      set({ isPlaying: bool });
     },
   };
 });

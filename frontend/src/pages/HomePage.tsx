@@ -17,10 +17,10 @@ const HomePage = () => {
       <div className="h-[calc(100vh-154px)] w-full overflow-y-auto custom-scrollbar">
         <div className="bg-gradient-to-b from-zinc-800 to zinc-900 mt-2 rounded-md w-full flex flex-col gap-y-4 pr-2">
           {/* Greeting */}
-          <div className="text-2xl font-bold ml-8 mt-4">Good Afternoon</div>
+          <div className="text-2xl font-bold ml-4 md:ml-8 mt-4">Good Afternoon</div>
 
           {/* Six Songs */}
-          <div className="ml-8">
+          <div className="ml-2 md:ml-8">
             {isLoadingFeatured ? <FeaturedGridSkeleton /> : <Featured />}
             {/* <Featured /> */}
           </div>

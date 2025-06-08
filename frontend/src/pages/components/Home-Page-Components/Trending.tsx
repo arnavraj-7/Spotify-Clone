@@ -4,7 +4,7 @@ import useSongStore from "@/stores/SongStore";
 import { useEffect } from "react";
 import { Link } from "react-router-dom";
 const Trending = () => {
- const {fetchTrendingSong, TrendingSong} = useSongStore();
+  const { fetchTrendingSong, TrendingSong } = useSongStore();
   useEffect(() => {
     if (TrendingSong == null || TrendingSong.length === 0) {
       fetchTrendingSong();
@@ -12,14 +12,16 @@ const Trending = () => {
   }, []);
   return (
     <>
-      <div className=" mx-4 flex justify-between items-cente">
-        <div className="text-2xl ml-3 font-bold">Trending</div>
-        <div className="text-sm font-semibold text-zinc-700 hover:text-zinc-500 transition-all duration-150 ease-in ">
-          <Link to="/trending"> Show All</Link>
-        </div>
+      <div className=" md:mx-4 flex justify-between items-center ml-5 mb-3">
+        <div className="text-xl md:text-2xl  font-bold">Trending</div>
+        <Link to="/trending">
+          <div className="text-sm font-semibold text-zinc-700 hover:text-zinc-500 transition-all duration-150 ease-in ">
+            Show All
+          </div>
+        </Link>
       </div>
-      <ScrollArea className="w-full whitespace-nowrap h-75 px-2">
-        <div className="flex space-x-4">
+      <ScrollArea className="w-full whitespace-nowrap h-75 md:px-2">
+        <div className="flex md:space-x-4">
           {TrendingSong
             ? TrendingSong.map((song) => {
                 return <TrendingSongCard song={song} key={song._id} />;

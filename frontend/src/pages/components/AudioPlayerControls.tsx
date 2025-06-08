@@ -26,6 +26,7 @@ const AudioPlayerControls = () => {
     setRepeat,
     repeat,
     audioRef,
+    queue
   } = usePlayerStore();
   const [volume, setVolume] = useState(75);
   const [currenttime, setCurrenttime] = useState(0);
@@ -62,19 +63,14 @@ const AudioPlayerControls = () => {
 
     audio.addEventListener("timeupdate", updateTime);
     audio.addEventListener("loadedmetadata", updateDuration);
-
-    const handleEnded = () => {
-      usePlayerStore.setState({ isPlaying: false });
-    };
-
-    audio.addEventListener("ended", handleEnded);
-
     return () => {
       audio.removeEventListener("timeupdate", updateTime);
       audio.removeEventListener("loadedmetadata", updateDuration);
-      audio.removeEventListener("ended", handleEnded);
     };
   }, [audioRef]);
+  useEffect(()=>{
+    console.log("current song:",currentSong+" queue:",queue);
+  },[currentSong,queue])
   return (
     <footer className="h-30  sm:h-24 bg-zinc-900 border-t border-zinc-800 px-4">
       <div className="flex justify-between items-center h-full max-w-[1800px] mx-auto">
@@ -144,7 +140,7 @@ const AudioPlayerControls = () => {
             <Button
               size="icon"
               variant="ghost"
-              className={` hover:text-white text-zinc-400 ${
+              className={` hover:text-white text-zinc-400 hidden ${
                 repeat ? "bg-green-700 text-white" : ""
               }`}
               onClick={() => {

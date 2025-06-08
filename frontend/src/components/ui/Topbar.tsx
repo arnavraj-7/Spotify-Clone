@@ -1,4 +1,4 @@
-import { SignedIn, SignedOut, SignOutButton, UserButton } from "@clerk/clerk-react";
+import { SignedIn, SignedOut, SignOutButton } from "@clerk/clerk-react";
 import { LayoutDashboard } from "lucide-react";
 import { Link } from "react-router-dom";
 import SignInOAuthButton from "./SignInOAuthButton";
@@ -20,12 +20,12 @@ const Topbar = () => {
           <div>Spotify</div>
         </Link>
       </div>
-      <div className="flex justify-end items-center flex-col">
+      <div className="flex justify-center items-end flex-col">
         {isAdmin && (
           <>
-            <Link to="/admin/dashboard" className="flex items-center gap-x-2 bg-zinc-800 rounded-md p-2 hover:bg-zinc-900 hover:scale-104 transition-all ease-in duration-150">
-              <LayoutDashboard className="size-4 mr-2"/>
-              <span>Admin Dashboard</span>
+            <Link to="/admin/dashboard" className="flex items-center justify-center gap-x-2 bg-zinc-800 rounded-md p-2 hover:bg-zinc-900 hover:scale-104 transition-all ease-in duration-150">
+              <LayoutDashboard className="size-4"/>
+              <span className="md:inline hidden">Admin Dashboard</span>
             </Link>
 
           </>

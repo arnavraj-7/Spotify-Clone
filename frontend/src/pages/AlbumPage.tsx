@@ -1,8 +1,8 @@
 import useAlbumStore from "@/stores/AlbumStore.ts";
-import { Clock3, Pause, Play, PlayCircle } from "lucide-react";
-import React, { useEffect, useState } from "react";
+import { Clock3, Pause, Play } from "lucide-react";
+import  { useEffect } from "react";
 import {SongCard} from "./cards/SongCard.tsx";
-import { Link, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import SongSkeleton from "@/skeletons/SongSkeleton";
 import usePlayerStore from "@/stores/PlayerStore.ts";
@@ -46,16 +46,16 @@ const AlbumPage = () => {
             <img
               src={currentAlbum?.imageUrl}
               alt="CoverImage"
-              className="w-40 h-40 object-cover rounded"
+              className="w-35 h-35 md:w-40 md:h-40 object-cover rounded"
             />
           </div>
-          <div className="flex flex-col justify-center gap-y-3">
+          <div className="flex flex-col justify-center gap-y-2 md:gap-y-3">
             <div className="text-md">Album</div>
-            <div className="text-md font-bold text-5xl">
+            <div className="text-md font-bold text-4xl md:text-5xl">
               {currentAlbum?.title}
             </div>
-            <div className="text-gray-400 text-sm flex gap-x-2">
-              <span className="font-semibold text-md text-white">
+            <div className="text-gray-400 text-[12px] flex md:gap-x-2">
+              <span className="font-semibold md:text-md text-white">
                 {currentAlbum?.artist}
               </span>
               <span className="">• {currentAlbum?.songs?.length}</span>
@@ -89,10 +89,10 @@ const AlbumPage = () => {
             <div className="ml-4 ">Title</div>
           </div>
           <div className="flex">
-            <div className="mr-30 ">
+            <div className="mr-0 md:mr-30">
               <Clock3 size={20} />
             </div>
-            <div className="mr-0 ">Released on</div>
+            <div className="mr-0 md:block hidden">Released on</div>
           </div>
         </div>
         <hr className=" w-[calc(100%-32px)] flex justify-center mx-auto mb-5" />
