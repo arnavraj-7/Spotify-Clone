@@ -1,21 +1,21 @@
 // import { Button } from "@/components/ui/button"
 // import { SignedIn, SignedOut, SignInButton, UserButton } from '@clerk/clerk-react';
 import { Route, Routes } from "react-router-dom";
-import { AuthCallbackPage } from "./pages/AuthCallbackPage.tsx";
-import HomePage from "./pages/HomePage";
+import { AuthCallbackPage } from "./pages/auth/AuthCallbackPage.tsx";
+import HomePage from "./pages/home/HomePage.tsx";
 import { AuthenticateWithRedirectCallback } from "@clerk/clerk-react";
 import MainLayout from "./layouts/MainLayout.tsx";
-import { ChatPage } from "./pages/ChatPage.tsx";
-import AlbumPage from "./pages/AlbumPage.tsx";
-import MadeForYou from "./pages/MadeForYou.tsx";
-import Trending from "./pages/TrendingPage.tsx";
+import { ChatPage } from "./pages/chat/ChatPage.tsx";
+import AlbumPage from "./pages/Album/AlbumPage.tsx";
+import MadeForYou from "./pages/home/MadeForYou.tsx";
+import Trending from "./pages/home/TrendingPage.tsx";
 import Topbar from "./components/ui/Topbar.tsx";
-import FullPlayer from "./pages/FullPlayer.tsx";
+import FullPlayer from "./pages/audio/FullPlayer.tsx";
 import LocationProvider from "./provider/LocationProvider.tsx";
 import AdminPage from "./pages/Admin/AdminPage.tsx";
 import Albums from "./pages/Admin/Albums.tsx";
 import Songs from "./pages/Admin/Songs.tsx";
-import RequestBackend from "./pages/RequestBackend.tsx";
+import RequestBackend from "./pages/loading/RequestBackend.tsx";
 
 function App() {
     return (

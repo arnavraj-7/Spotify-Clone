@@ -1,7 +1,7 @@
 import useAlbumStore from "@/stores/AlbumStore.ts";
 import { Clock3, Pause, Play } from "lucide-react";
 import  { useEffect } from "react";
-import {SongCard} from "./cards/SongCard.tsx";
+import {SongCard} from "../cards/SongCard.tsx";
 import { useParams } from "react-router-dom";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import SongSkeleton from "@/skeletons/SongSkeleton";

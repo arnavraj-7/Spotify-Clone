@@ -1,6 +1,6 @@
 import { useEffect, useRef } from "react";
 import { useAuth, useUser } from "@clerk/clerk-react";
-import LoadingPage from "./LoadingPage";
+import LoadingPage from "../loading/LoadingPage";
 import API from "@/lib/axios";
 import { useNavigate } from "react-router-dom";
 

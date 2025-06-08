@@ -24,7 +24,19 @@ export type Album = {
 
 export type User = {
   _id: string;
+  clerkId?: string;
   firstName: string;
   lastName: string;
+  activities?:string | object
   likeId?: string[] | Song[];
 }
+
+export type Message = {
+  _id: string;
+  senderId: string;
+  receiverId: string;
+  content: string;
+  delivered: boolean;
+  createdAt: Date;
+  updatedAt: Date;
+};

@@ -31,6 +31,7 @@
     "react-router-dom": "^7.6.1",
     "shadcn": "^2.6.0",
     "slider": "^1.0.4",
+    "socket.io-client": "^4.8.1",
     "tailwind-merge": "^3.3.0",
     "tailwindcss": "^4.1.7",
     "zustand": "^5.0.5"
@@ -51,7 +52,7 @@
     "vite": "^6.3.5"
   },
   "engines": {
-  "npm": ">=8.0.0",
-  "pnpm": "forbid"
-}
+    "npm": ">=8.0.0",
+    "pnpm": "forbid"
+  }
 }

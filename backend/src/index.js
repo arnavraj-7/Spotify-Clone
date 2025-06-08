@@ -23,7 +23,7 @@ const __dirname = path.resolve();
 const PORT = process.env.PORT || 3000;
 
 const httpServer = createServer(app);
-// initializeSocket(httpServer)
+initializeSocket(httpServer)
 
 
 

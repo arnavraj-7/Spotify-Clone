@@ -6,12 +6,21 @@ import { useState } from "react";
 import type { User } from "@/types";
 
 const UserCard = ({ user }: { user: User }) => {
-  const [isPlaying, setIsPlaying] = useState(true); // toggle for demo
+ // toggle for demo
 
-  const songTitle = "Neon Tokyo";
-  const artist = "Future Pulse";
+  const [online, setOnline] = useState(false);
+  const [isPlaying, setPlaying] = useState(false);
+  const activity = user.activities;
+  
+  if(activity === "Offline"){
+    setOnline(false);
+  }
 
-  const [firstName, lastName] = [user.firstName,user.lastName];
+  if(activity.song){
+    setPlaying(true);
+  }
+
+  const [firstName, lastName] = [user.firstName, user.lastName];
 
   return (
     <div
@@ -33,7 +42,7 @@ const UserCard = ({ user }: { user: User }) => {
         <div className="flex flex-col">
           <div className="flex items-center gap-1">
             <span className="font-medium text-white">{user.firstName+" "+user.lastName}</span>
-            {isPlaying && (
+            { (online&&isPlaying)&& (
               <Music
                 size={16}
                 className="text-green-400 animate-bounce"
@@ -42,8 +51,8 @@ const UserCard = ({ user }: { user: User }) => {
           </div>
           {isPlaying ? (
             <>
-              <span className="text-sm text-white">{songTitle}</span>
-              <span className="text-xs text-gray-400">{artist}</span>
+              <span className="text-sm text-white">{activity.song}</span>
+              <span className="text-xs text-gray-400">{activity.artist}</span>
             </>
           ) : (
             <span className="text-sm text-gray-400">Idle</span>

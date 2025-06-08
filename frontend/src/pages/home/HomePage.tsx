@@ -1,9 +1,9 @@
 import Topbar from "@/components/ui/Topbar";
 import useSongStore from "@/stores/SongStore";
 import { SignedIn } from "@clerk/clerk-react";
-import Trending from "./components/Home-Page-Components/Trending.tsx";
-import Featured from "./components/Home-Page-Components/Featured.tsx";
-import MadeforYou from "./components/Home-Page-Components/MadeforYou.tsx";
+import Trending from "../components/Home-Page-Components/Trending.tsx";
+import Featured from "../components/Home-Page-Components/Featured.tsx";
+import MadeforYou from "../components/Home-Page-Components/MadeforYou.tsx";
 import FeaturedGridSkeleton from "@/skeletons/FeaturedGridSkeleton.tsx";
 import MadeforYouGridSkeleton from "@/skeletons/MadeforYouGridSkeleton.tsx";
 
