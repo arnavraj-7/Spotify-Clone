@@ -61,9 +61,10 @@ const useChatStore = create<ChatStore>((set, get) => {
     fetchMessages: async (token: string, id: string) => {
       try {
         set({ isLoadingMessages: true });
-        const messages = await API.get(`/message/${id}`, {
+        const messages = await API.get(`/chat/${id}`, {
           headers: { Authorization: `Bearer ${token}` },
         });
+        console.log("messages from cs", messages.data);
         set({ messages: messages.data });
       } catch (err) {
         set({ error: "Error in fetching messages" });

@@ -18,6 +18,7 @@ const ChatMessages = ({receiver}:{receiver:userWithActivities}) => {
         if(!user || !receiver.clerkId)return;
         sendMessage({content:newMessage,receiverId:receiver.clerkId,senderId:user.id})
         setMessage(newMessage);
+        setNewMessage("");
     }
 
     useEffect(()=>{
@@ -26,10 +27,13 @@ const ChatMessages = ({receiver}:{receiver:userWithActivities}) => {
             if(!receiver.clerkId)return;
             const token =await getToken();
             if(!token)return;
-            fetchMessages(receiver.clerkId,token);
+            fetchMessages(token,receiver.clerkId);
         }
         fetchData();
     },[receiver.clerkId])
+    useEffect(()=>{
+        console.log("messages",messages);
+    },[messages])
   return (
     <div>
 
@@ -43,8 +47,8 @@ const ChatMessages = ({receiver}:{receiver:userWithActivities}) => {
             <div>
                 {messages.map((message)=>{
                     return (
-                        <div className='p-4 border-b border-zinc-800'>
-                            <div className={`${message.senderId===user?.id?"bg-green-400":"bg-blue-400"} p-4 rounded-md ttext-white w-fit}`}>{message.content}</div>
+                        <div className='p-4 text-white border-b border-zinc-800'>
+                            <div className={` p-4 rounded-md text-white ${message.senderId==user?.id?"bg-green-400":"bg-blue-400"}}`}>{message.content}</div>
                         </div>
                     )
                 })}

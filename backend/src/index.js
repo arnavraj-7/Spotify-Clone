@@ -59,7 +59,7 @@ app.use("/api/song", songRoute);
 app.use("/api/album", albumRoute);
 app.use("/api/stats", statsRoute);
 app.use("/api/auth", authRoute);
-app.use("api/chat", chatRoute);
+app.use("/api/chat", chatRoute);
 
 app.use(handleError); //handles the errors from all routes
 
