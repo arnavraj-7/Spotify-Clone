@@ -17,6 +17,7 @@ type ChatStore = {
   isLoadingUsers: boolean;
   isLoadingMessages: boolean;
   messages: Message[];
+  unseenMessages: Message[];
   socket: Socket | null;
   setSocket: (socket: Socket | null) => void;
   fetchUsers: (token: string) => Promise<void>;
@@ -27,6 +28,7 @@ type ChatStore = {
   fetchUserActivities: () => void;
   updateActivity: () => void;
   setMessage: (message: Message) => void;
+  undeliveredMessages:()=>void;
   setMergedUsers : (users:userWithActivities[])=> void;
 };
 

@@ -25,9 +25,10 @@ function App() {
         <Route path="/auth-callback" element={<AuthCallbackPage/>} />
         <Route element={<><LocationProvider><MainLayout/></LocationProvider></>}>
           <Route path="/" element={<HomePage/>} />          
-          <Route path="/chat" element={<ChatPage/>} />          
+                   
           <Route path="/album/:id" element={<AlbumPage/>} />          
           <Route path="/made-for-you" element={<><Topbar/><MadeForYou/></>} />          
+        <Route path="/chat" element={<ChatPage/>} /> 
           <Route path="/trending" element={<><Topbar/><Trending/></>} />        
           <Route path="song-player" element={<FullPlayer/>} />        
         </Route>

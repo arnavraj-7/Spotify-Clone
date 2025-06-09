@@ -12,9 +12,9 @@ export const initializeSocket = (server) => {
   const userActivities = new Map(); //{clerkId:Activity}
 
   io.on("connection",async(socket)=>{
-    console.log("socket connected",socket.id);
+    // console.log("socket connected",socket.id);
     const clerkId = socket.handshake.auth.clerkId;
-    console.log("clerkId:",clerkId);
+    // console.log("clerkId:",clerkId);
     userSockets.set(clerkId,socket.id)
     userActivities.set(clerkId,"Idle");
 

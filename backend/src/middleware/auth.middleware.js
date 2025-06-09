@@ -2,7 +2,7 @@ import dotenv from "dotenv";
 dotenv.config();
 import { clerkClient } from "@clerk/express";
 const protectroute = async (req, res, next) => {
-  console.log("proctect route trigerred.",req.auth().userId);
+  // console.log("proctect route trigerred.",req.auth().userId);
   const auth = req.auth();
   const userId = auth.userId;
   if (!userId) {
