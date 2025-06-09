@@ -7,8 +7,6 @@ const LocationProvider = ({children}:{children:React.ReactNode}) => {
     const prevLocationRef = useRef("/");
     const location = useLocation()
     useEffect(() => {
-        console.log("prevlocation",prevlocation);
-        console.log("location",location);
         setPrevlocation(prevLocationRef.current)
         prevLocationRef.current = location.pathname
     }, [location])

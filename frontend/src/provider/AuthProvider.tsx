@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useAuth } from "@clerk/clerk-react";
+import { useAuth,useUser } from "@clerk/clerk-react";
 import API from "@/lib/axios.ts";
 import LoadingPage from "@/pages/loading/LoadingPage";
 import useAuthStore from "@/stores/AuthStore";
@@ -13,15 +13,17 @@ const updateAPItoken = (token: string | null) => {
   }
 };
 const AuthProvider = ({ children }: { children: React.ReactNode }) => {
-  const { getToken, userId } = useAuth();
+  const { getToken } = useAuth();
+  const { user,isLoaded } = useUser();
   const [loading, setLoading] = useState(true);
   const { checkAdmin } = useAuthStore();
   const {
     setSocket,
     fetchOnlineUsers,
     fetchUserActivities,
-    receivedMessage,
-    socket,
+    receiveMessage,
+    updateActivity
+    
   } = useChatStore();
   useEffect(() => {
     const initAuth = async () => {
@@ -31,29 +33,41 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         updateAPItoken(token);
         if (token) {
           await checkAdmin();
-          const socket = io("http://localhost:5000", {
+      
+        }
+      } catch (error) {
+        console.log("Error in auth provider", error);
+        updateAPItoken(null);
+      } 
+    };
+    initAuth();
+  }, [getToken]);
+
+useEffect(()=>{
+     // Wait until Clerk has finished loading
+    if (!isLoaded) return;
+
+    // If there's no user, we're done loading; render public UI
+    if (!user) {
+      setLoading(false);
+      // also clean up any existing socket
+      setSocket(null);
+      return;
+    }
+  setLoading(false);
+  const socket = io("http://localhost:5000", {
             auth: {
-              clerkId: userId,
+              clerkId: user.id,
             },
           });
           setSocket(socket);
           fetchOnlineUsers();
           fetchUserActivities();
-          receivedMessage();
-        }
-      } catch (error) {
-        console.log("Error in auth provider", error);
-        updateAPItoken(null);
-      } finally {
-        setLoading(false);
-      }
-    };
-    initAuth();
-    return () => {
-      // Cleanup on unmount
-      setSocket(null);
-    };
-  }, [getToken]);
+          receiveMessage();
+          updateActivity();
+          return ()=> setSocket(null);
+},[user,isLoaded])
+
   if (loading) {
     return (
       <>

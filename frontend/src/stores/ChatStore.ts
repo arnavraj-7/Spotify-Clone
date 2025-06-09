@@ -3,10 +3,16 @@ import type { Message, User } from "@/types";
 import type { Socket } from "socket.io-client";
 import { create } from "zustand";
 
+
+type userWithActivities = User & {activity:string}
+type userActivities = {
+  [key: string]: string;
+}
 type ChatStore = {
   users: User[] | [];
   onlineUsers: User[] | [];
-  userActivities: object;
+  mergedUsers: userWithActivities[] | [];
+  userActivities: userActivities;
   error: string | null;
   isLoadingUsers: boolean;
   isLoadingMessages: boolean;
@@ -16,9 +22,12 @@ type ChatStore = {
   fetchUsers: (token: string) => Promise<void>;
   fetchMessages: (token: string, id: string) => Promise<void>;
   sendMessage: (message: Message) => void;
-  receivedMessage: () => void;
+  receiveMessage: () => void;
   fetchOnlineUsers: () => void;
   fetchUserActivities: () => void;
+  updateActivity: () => void;
+  setMessage: (message: Message) => void;
+  setMergedUsers : (users:userWithActivities[])=> void;
 };
 
 const useChatStore = create<ChatStore>((set, get) => {
@@ -30,6 +39,8 @@ const useChatStore = create<ChatStore>((set, get) => {
     onlineUsers: [],
     userActivities: {},
     messages: [],
+    mergedUsers: [],
+    socket : null,
     fetchUsers: async (token: string) => {
       try {
         set({ isLoadingUsers: true });
@@ -43,6 +54,9 @@ const useChatStore = create<ChatStore>((set, get) => {
       } finally {
         set({ isLoadingUsers: false });
       }
+    },
+    setMergedUsers:(users)=>{
+      set({mergedUsers:users});
     },
     fetchMessages: async (token: string, id: string) => {
       try {
@@ -67,7 +81,10 @@ const useChatStore = create<ChatStore>((set, get) => {
         socket.emit("send_messages", message);
       }
     },
-    receivedMessage() {
+    setMessage(message:Message){
+      set({messages:[...get().messages,message]})
+    },
+    receiveMessage() {
       const { socket } = get();
       if (socket) {
         socket.on("receive_messages", (payload) => {
@@ -84,9 +101,10 @@ const useChatStore = create<ChatStore>((set, get) => {
       if (socket) {
         socket.on("user_connected", (payload) => {
           set((state) => ({
-            onlineUsers: [...state.onlineUsers, payload],
+            onlineUsers: [...state.onlineUsers, payload.clerkId],
+            userActivities:{...state.userActivities,[payload.clerkId]:"Idle"}
           }));
-          console.log(payload);
+          console.log("user Connected :",payload);
 
         });
         socket.on("user_disconnected", (payload) => {
@@ -95,7 +113,7 @@ const useChatStore = create<ChatStore>((set, get) => {
               (user) => user.clerkId !== payload.clerkId
             ),userActivities:{...state.userActivities,[payload.clerkId]:"Offline"}
           }));
-          console.log(payload);
+          console.log("user disconneted :",payload);
         });
       }
     },
@@ -106,10 +124,20 @@ const useChatStore = create<ChatStore>((set, get) => {
           set((state) => ({
             userActivities: { ...state.userActivities, ...payload },
           }));
-          console.log(payload);
+          console.log("activities:",payload);
         });
       }
     },
+    updateActivity:()=>{
+      const socket = get().socket;
+      if(socket){
+        socket.on("update_activity", (payload) => {
+          set((state) => ({
+            userActivities: { ...state.userActivities, ...payload },
+          }));
+        })
+      }
+      }
   };
 });
 export default useChatStore;

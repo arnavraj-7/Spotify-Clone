@@ -10,6 +10,7 @@ export const AuthCallbackPage = () => {
   const navigate = useNavigate();
   const didSyncRef = useRef(false);
 
+
   //calling the sync function everytime the page is open
   useEffect(() => {
     const syncUser = async () => {
@@ -19,6 +20,7 @@ export const AuthCallbackPage = () => {
           return;
         }
         if(didSyncRef.current) return;
+        console.log("AuthCallback trigggered!");
         didSyncRef.current = true;
         const res = await API.post("auth/callback",{
           clerkId: user.id,
@@ -26,7 +28,8 @@ export const AuthCallbackPage = () => {
           lastName: user.lastName,
         }
           )
-        console.log(res);
+        // console.log(res);
+         
       } catch (error) {
         console.log(error);
       } finally {

@@ -4,33 +4,42 @@ import UserCard from "../cards/UserCard";
 import useChatStore from "@/stores/ChatStore";
 import { useAuth } from "@clerk/clerk-react";
 import type { User } from "@/types";
+import UsersListSkeleton from "@/skeletons/UserListSkeleton";
 
 const FriendsandActivity = () => {
   const { getToken } = useAuth();
-  const { users,fetchUsers,userActivities } = useChatStore();
-  const [mergedUsers,setMergeUsers] = useState([]);
+  const [loading,setLoading] = useState(false);
+  const { users,fetchUsers,userActivities,setMergedUsers ,mergedUsers} = useChatStore();
+ 
   useEffect(() => {
     async function fetchData() {
       const token = await getToken();
       if (token === null) return;
       await fetchUsers(token);
+      
+    }
+    fetchData();
+  }, [getToken]);
 
-      const merged = users.map((user) => {
-        if(user.clerkId){
+  useEffect(()=>{
+    const merged = users.filter(user=>!!user.clerkId).map((user) => {
             return {     
                 ...user,
                 activity: userActivities[user.clerkId] || "Offline", // default to offline
             }
-        }
+        
       });
-      setMergeUsers(merged);
-    }
-    fetchData();
-  }, [getToken]);
+      setMergedUsers(merged);
+      if(merged.length===0) setLoading(true);
+      else if(merged.length>0) setLoading(false);
+  },[userActivities,users])
   useEffect(()=>{
-    console.log("merged",mergedUsers)
-  },[mergedUsers])
+    console.log("users:",users," merged:",mergedUsers," activities:",userActivities);
+  },[mergedUsers,users,userActivities])
   return (
+
+    <>
+    {loading?<UsersListSkeleton/>:
     <div className="bg-zinc-900 rounded-md h-[calc(100vh-114px)]">
       <div className="font-bold flex gap-x-2 items-center mb-3">
         <Users2Icon size={30} />
@@ -42,7 +51,8 @@ const FriendsandActivity = () => {
           return <UserCard user={user} key={user.clerkId} />;
         })}
       </div>
-    </div>
+    </div>}
+    </>
   );
 };
 

@@ -10,6 +10,7 @@ import songRoute from "./routes/song.route.js";
 import albumRoute from "./routes/album.route.js";
 import statsRoute from "./routes/stats.route.js";
 import authRoute from "./routes/auth.route.js";
+import chatRoute from "./routes/chat.route.js"
 import fileUpload from "express-fileupload";
 import path from "path";
 import { handleError } from "./middleware/error.middleware.js";
@@ -58,6 +59,7 @@ app.use("/api/song", songRoute);
 app.use("/api/album", albumRoute);
 app.use("/api/stats", statsRoute);
 app.use("/api/auth", authRoute);
+app.use("api/chat", chatRoute);
 
 app.use(handleError); //handles the errors from all routes
 

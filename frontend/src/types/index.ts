@@ -27,16 +27,21 @@ export type User = {
   clerkId?: string;
   firstName: string;
   lastName: string;
-  activities?:string | object
+  activity?:string | object
   likeId?: string[] | Song[];
 }
 
 export type Message = {
-  _id: string;
+  _id?: string;
   senderId: string;
   receiverId: string;
   content: string;
-  delivered: boolean;
-  createdAt: Date;
-  updatedAt: Date;
+  delivered?: boolean;
+  createdAt?: Date;
+  updatedAt?: Date;
 };
+
+export type userWithActivities = User & {activity:string}
+export type userActivities = {
+  [key: string]: string;
+}

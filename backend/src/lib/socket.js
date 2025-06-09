@@ -14,6 +14,7 @@ export const initializeSocket = (server) => {
   io.on("connection",async(socket)=>{
     console.log("socket connected",socket.id);
     const clerkId = socket.handshake.auth.clerkId;
+    console.log("clerkId:",clerkId);
     userSockets.set(clerkId,socket.id)
     userActivities.set(clerkId,"Idle");
 
@@ -30,13 +31,13 @@ export const initializeSocket = (server) => {
     }
 
     //broadcast it to others to  update their frontend
-    socket.broadcast.emit("user_connected",{clerkId,activity:"Idle"});
+    socket.broadcast.emit("user_connected",{clerkId:clerkId});
 
     //send list of online clients to new client
     socket.emit("online_users",Array.from(userSockets.keys()));
 
-    //lsiten for activities
-    socket.on("update_activity",async(payload)=>{
+    //lisiten for activities
+    socket.on("update_activity",(payload)=>{
       const {clerkId,activity} = payload;
       userActivities.set(clerkId,activity);
       socket.broadcast.emit("update_activity",payload);
