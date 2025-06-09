@@ -1,20 +1,47 @@
 import useChatStore from "@/stores/ChatStore";
 import { Users2Icon, MessageCircle } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import UserCard from "../cards/UserCard";
 import { Button } from "@/components/ui/button";
 import ChatMessages from "./ChatMessages";
 import type { userWithActivities } from "@/types";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { useAuth } from "@clerk/clerk-react";
 
 export const ChatPage = () => {
-  const { mergedUsers } = useChatStore();
+  const { mergedUsers,fetchUsers,users,userActivities,setMergedUsers } = useChatStore();
+  const [loading, setLoading] = useState(true);
+  const {getToken} = useAuth();
   const [receiver, setReceiver] = useState<userWithActivities | null>(null);
+  
+  useEffect(() => {
+    async function fetchData() {
+      const token = await getToken();
+      if (token === null) return;
+      await fetchUsers(token);
+    }
+    fetchData();
+  }, [getToken]);
+
+  useEffect(() => {
+    const merged = users.filter(user => !!user.clerkId).map((user) => {
+      if (!user.clerkId) return;
+      return {    
+        ...user,
+        activity: userActivities[user.clerkId] || "Offline",
+      }
+    });
+    setMergedUsers(merged);
+     
+    if (merged.length === 0) setLoading(true);
+    else if (merged.length > 0) setLoading(false);
+  }, [userActivities, users])
+  
 
   if (!mergedUsers) return null;
 
   return (
-    <div className="flex min-h-screen gap-4">
+    <div className="flex h-[calc(100vh-115px)] gap-4">
       {/* Users Sidebar */}
       <div className="w-80 flex-shrink-0">
         <div className="bg-gradient-to-b from-zinc-900 to-zinc-900/95 rounded-xl h-full border border-zinc-800/50 shadow-2xl overflow-hidden">
@@ -30,9 +57,9 @@ export const ChatPage = () => {
             </div>
           </div>
           
-          <div className="p-4 h-[calc(100vh-500px)] overflow-y-auto">
+          <div className="p-4">
             <div className="space-y-2">
-              <ScrollArea className="h-[calc(100vh-300px)]">
+              <ScrollArea className="h-[calc(100vh-200px)]">
               {mergedUsers.map((user: userWithActivities) => {
                 const isSelected = receiver?.clerkId === user.clerkId;
                 return (

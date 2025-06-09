@@ -18,17 +18,17 @@ export const initializeSocket = (server) => {
     userSockets.set(clerkId,socket.id)
     userActivities.set(clerkId,"Idle");
 
-    //check for undelivered messages in the database
-    const undelivered = await Message.find({receiverId:clerkId,delivered:false});
-    socket.emit("undelivered_messages",undelivered);
-    //update them in database
-    try{
-      await Message.updateMany({receiverId:clerkId,delivered:false},{
-       $set:{ delivered:true}
-      })
-    }catch(error){
-      console.log("Error in updating messages",error);
-    }
+    // //check for undelivered messages in the database
+    // const undelivered = await Message.find({receiverId:clerkId,delivered:false});
+    // socket.emit("undelivered_messages",undelivered);
+    // //update them in database
+    // try{
+    //   await Message.updateMany({receiverId:clerkId,delivered:false},{
+    //    $set:{ delivered:true}
+    //   })
+    // }catch(error){
+    //   console.log("Error in updating messages",error);
+    // }
 
     //broadcast it to others to  update their frontend
     socket.broadcast.emit("user_connected",{clerkId:clerkId});

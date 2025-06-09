@@ -13,7 +13,14 @@ const MessageSchema = new mongoose.Schema({
     content:{
         type:String,
         required:true
-    }
+    },
+     delivered: {
+        type: Boolean,
+        default: false
+    },
+    deliveredAt: {
+        type: Date
+    },
 },{timestamps:true})
 
 export const Message = mongoose.model("Message",MessageSchema);
