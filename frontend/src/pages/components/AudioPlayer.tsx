@@ -60,12 +60,7 @@ const AudioPlayer = () => {
   //handle song change
   useEffect(() => {
     if (!audioRef.current || !currentSong) return;
-
     const audio = audioRef.current;
-    if(prevSongRef==null){
-      prevSongRef.current = currentSong?.audioUrl
-      return;
-    }
   
     //check if this is new song
     const isSongChange = prevSongRef.current != currentSong?.audioUrl;
