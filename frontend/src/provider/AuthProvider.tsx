@@ -55,7 +55,8 @@ useEffect(()=>{
       return;
     }
   setLoading(false);
-  const socket = io("http://localhost:5000", {
+  const backendURL = import.meta.env.MODE === "production"? import.meta.env.VITE_BACKEND_URL: "http://localhost:5000";
+  const socket = io(`${backendURL}`, {
             auth: {
               clerkId: user.id,
             },
