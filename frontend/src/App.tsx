@@ -17,6 +17,7 @@ import Albums from "./pages/Admin/Albums.tsx";
 import Songs from "./pages/Admin/Songs.tsx";
 import RequestBackend from "./pages/loading/RequestBackend.tsx";
 import NotFoundPage from "./pages/loading/404.tsx";
+import UnderMaintenance from "./pages/loading/UnderMaintenance.tsx";
 
 function App() {
     return (
@@ -32,6 +33,7 @@ function App() {
         <Route path="/chat" element={<ChatPage/>} /> 
           <Route path="/trending" element={<><Topbar/><Trending/></>} />        
           <Route path="song-player" element={<FullPlayer/>} />        
+          <Route path="/profile" element={<UnderMaintenance/>}/>
         </Route>
         <Route path="/req" element={<RequestBackend/>}/>
           <Route path="admin/dashboard" element={<AdminPage/>} >
