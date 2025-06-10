@@ -35,6 +35,7 @@ export const initializeSocket = (server) => {
 
     //broadcast it to others to  update their frontend
     socket.broadcast.emit("user_connected",{clerkId:clerkId});
+    console.log("user Connected :", {clerkId:clerkId});
 
     //send list of online clients to new client
     socket.emit("online_users",Array.from(userSockets.keys()));
