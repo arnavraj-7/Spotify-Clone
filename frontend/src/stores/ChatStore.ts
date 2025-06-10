@@ -15,6 +15,10 @@ type ChatStore = {
   error: string | null;
   isLoadingUsers: boolean;
   isLoadingMessages: boolean;
+  conversations:Record<string,Message[]>;
+  activeConversation: string | null;
+  setActiveConversationKey:(key:string)=>void;
+  addMessagetoConversation: (message: Message,key:string) => void;
   messages: Message[];
   newMessageIds: Set<string> | null;
   socket: Socket | null;
@@ -37,6 +41,8 @@ const useChatStore = create<ChatStore>((set, get) => {
     isLoadingUsers: false,
     isLoadingMessages: false,
     users: [],
+    conversations:{},
+    activeConversation: null,
     onlineUsers: [],
     userActivities: {},
     messages: [],
@@ -61,17 +67,17 @@ const useChatStore = create<ChatStore>((set, get) => {
     setMergedUsers: (users) => {
       set({ mergedUsers: users });
     },
-     markAsSeen: async (token: string, id: string) => {
-      console.log("markAsSeen");
-      await API.post(`/chat/${id}/mark-seen`, {
-        header: { Authorization: `Bearer ${token}` },
-      });
-      set((state) => ({
-        messages: state.messages.map((msg) =>
-          msg.senderId === id ? { ...msg, delivered: true,seen:true } : msg
-        ),
-      }));
-    },
+    //  markAsSeen: async (token: string, id: string) => {
+    //   console.log("markAsSeen");
+    //   await API.post(`/chat/${id}/mark-seen`, {
+    //     header: { Authorization: `Bearer ${token}` },
+    //   });
+    //   set((state) => ({
+    //     messages: state.messages.map((msg) =>
+    //       msg.senderId === id ? { ...msg, delivered: true,seen:true } : msg
+    //     ),
+    //   }));
+    // },
     fetchMessages: async (token: string, id: string,currentid:string) => {
 
     set({ isLoadingMessages: true });
@@ -83,23 +89,23 @@ const useChatStore = create<ChatStore>((set, get) => {
       });
       
       // Find messages that are unseen (new messages)
-      const unseenIds = new Set<string>();
-      response.data.forEach((msg: Message) => {
-        // If message is not delivered AND not sent by current user = it's new
-        if (!msg.seen && msg.senderId !== currentid) {
-          unseenIds.add(msg._id as string);
-        }
-      });
+      // const unseenIds = new Set<string>();
+      // response.data.forEach((msg: Message) => {
+      //   // If message is not delivered AND not sent by current user = it's new
+      //   if (!msg.seen && msg.senderId !== currentid) {
+      //     unseenIds.add(msg._id as string);
+      //   }
+      // });
       
-      set({ messages: response.data, newMessageIds: unseenIds });
+      set({ messages: response.data ,conversations:{...get().conversations,[currentid+id]:response.data}});
       
       
       // Mark messages as delivered after a short delay (so user can see the NEW indicator)
-      if (unseenIds.size > 0) {
-        setTimeout(() => {
-          get().markAsDelivered(token, id);
-        }, 2000); // Show NEW indicator for 2 seconds
-      }
+      // if (unseenIds.size > 0) {
+      //   setTimeout(() => {
+      //     get().markAsSeen(token, id);
+      //   }, 2000); // Show NEW indicator for 2 seconds
+      // }
       
     } catch (error) {
       console.error('Error fetching messages:', error);
@@ -111,6 +117,14 @@ const useChatStore = create<ChatStore>((set, get) => {
 
     setSocket: (socket: Socket) => {
       set({ socket });
+    },
+    setActiveConversationKey:(key:string)=>{
+      set({activeConversation:key})
+    },
+    addMessagetoConversation: (message: Message,key:string)=>{
+        set((state)=>({conversations:{...state.conversations,[key]:[...state.conversations[key] || [],message]}})) 
+        
+        //message.receiverId+message.senderId will act as a key,when message comes directly from socket then receiver would be always the current user and sender would be the other user who sent it ....2)when it is coming from database that will be handled in fetch message,there also key will have current user+other user(to whom current user is talking to
     },
     sendMessage(message: Message) {
       const { socket } = get();
@@ -124,9 +138,11 @@ const useChatStore = create<ChatStore>((set, get) => {
     receiveMessage() {
       const { socket } = get();
       if (socket) {
-        socket.on("receive_messages", (payload) => {
+        socket.on("receive_messages", (payload:Message) => {
+          get().addMessagetoConversation(payload,payload.receiverId+payload.senderId);
           set((state) => ({
-            messages: [...state.messages, payload],  }));
+            messages: [...state.messages, payload],
+          }));
       })
       }
     },

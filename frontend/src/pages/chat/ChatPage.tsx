@@ -6,13 +6,15 @@ import { Button } from "@/components/ui/button";
 import ChatMessages from "./ChatMessages";
 import type { userWithActivities } from "@/types";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { useAuth } from "@clerk/clerk-react";
+import { useAuth,useUser } from "@clerk/clerk-react";
 import UsersListSkeleton from "@/skeletons/UserListSkeleton";
 
 export const ChatPage = () => {
-  const { mergedUsers,fetchUsers,users,userActivities,setMergedUsers } = useChatStore();
+  const { mergedUsers,fetchUsers,users,userActivities,setMergedUsers,setActiveConversationKey } = useChatStore();
   const [loading, setLoading] = useState(true);
   const {getToken} = useAuth();
+  const {user } = useUser();
+  const clientId = user?.id;
   const [receiver, setReceiver] = useState<userWithActivities | null>(null);
   
   useEffect(() => {
@@ -73,7 +75,11 @@ export const ChatPage = () => {
                         : 'bg-transparent border-transparent hover:bg-zinc-800/60 hover:border-zinc-700/50'
                       }
                     `}
-                    onClick={() => setReceiver(user)} 
+                    onClick={() => {setReceiver(user)
+                      if(user.clerkId){
+                        setActiveConversationKey(clientId+user.clerkId)
+                      }
+                    }} 
                     key={user.clerkId}
                   >
                     <UserCard user={user} />
