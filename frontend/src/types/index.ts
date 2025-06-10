@@ -37,6 +37,7 @@ export type Message = {
   receiverId: string;
   content: string;
   delivered?: boolean;
+  seen?:boolean;
   createdAt?: Date;
   updatedAt?: Date;
 };

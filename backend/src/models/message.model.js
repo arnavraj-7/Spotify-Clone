@@ -18,9 +18,10 @@ const MessageSchema = new mongoose.Schema({
         type: Boolean,
         default: false
     },
-    deliveredAt: {
-        type: Date
-    },
+   seen: {
+     type: Boolean,
+     default: false
+   }
 },{timestamps:true})
 
 export const Message = mongoose.model("Message",MessageSchema);

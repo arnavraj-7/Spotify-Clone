@@ -23,7 +23,7 @@ type ChatStore = {
   fetchMessages: (token: string, id: string,currentid:string) => Promise<void>;
   sendMessage: (message: Message) => void;
   receiveMessage: () => void;
-  markAsDelivered: (token: string, id: string) => Promise<void>;
+  markAsSeen: (token: string, id: string) => Promise<void>;
   fetchOnlineUsers: () => void;
   fetchUserActivities: () => void;
   updateActivity: () => void;
@@ -61,14 +61,14 @@ const useChatStore = create<ChatStore>((set, get) => {
     setMergedUsers: (users) => {
       set({ mergedUsers: users });
     },
-     markAsDelivered: async (token: string, id: string) => {
-      console.log("markAsDelivered");
-      await API.post("/chat/:id/mark-seen", {
+     markAsSeen: async (token: string, id: string) => {
+      console.log("markAsSeen");
+      await API.post(`/chat/${id}/mark-seen`, {
         header: { Authorization: `Bearer ${token}` },
       });
       set((state) => ({
         messages: state.messages.map((msg) =>
-          msg.senderId === id ? { ...msg, delivered: true } : msg
+          msg.senderId === id ? { ...msg, delivered: true,seen:true } : msg
         ),
       }));
     },
@@ -82,20 +82,20 @@ const useChatStore = create<ChatStore>((set, get) => {
         }
       });
       
-      // Find messages that are undelivered (new messages)
-      const undeliveredIds = new Set<string>();
-      response.data.forEach((msg: any) => {
+      // Find messages that are unseen (new messages)
+      const unseenIds = new Set<string>();
+      response.data.forEach((msg: Message) => {
         // If message is not delivered AND not sent by current user = it's new
-        if (!msg.delivered && msg.senderId !== currentid) {
-          undeliveredIds.add(msg._id as string);
+        if (!msg.seen && msg.senderId !== currentid) {
+          unseenIds.add(msg._id as string);
         }
       });
       
-      set({ messages: response.data, newMessageIds: undeliveredIds });
+      set({ messages: response.data, newMessageIds: unseenIds });
       
       
       // Mark messages as delivered after a short delay (so user can see the NEW indicator)
-      if (undeliveredIds.size > 0) {
+      if (unseenIds.size > 0) {
         setTimeout(() => {
           get().markAsDelivered(token, id);
         }, 2000); // Show NEW indicator for 2 seconds

@@ -7,6 +7,7 @@ import ChatMessages from "./ChatMessages";
 import type { userWithActivities } from "@/types";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { useAuth } from "@clerk/clerk-react";
+import UsersListSkeleton from "@/skeletons/UserListSkeleton";
 
 export const ChatPage = () => {
   const { mergedUsers,fetchUsers,users,userActivities,setMergedUsers } = useChatStore();
@@ -35,7 +36,7 @@ export const ChatPage = () => {
      
     if (merged.length === 0) setLoading(true);
     else if (merged.length > 0) setLoading(false);
-  }, [userActivities, users])
+  }, [userActivities, users,setMergedUsers])
   
 
   if (!mergedUsers) return null;
@@ -60,7 +61,7 @@ export const ChatPage = () => {
           <div className="p-4">
             <div className="space-y-2">
               <ScrollArea className="h-[calc(100vh-200px)]">
-              {mergedUsers.map((user: userWithActivities) => {
+              {loading?<UsersListSkeleton/>:(mergedUsers.map((user: userWithActivities) => {
                 const isSelected = receiver?.clerkId === user.clerkId;
                 return (
                   <Button 
@@ -78,7 +79,7 @@ export const ChatPage = () => {
                     <UserCard user={user} />
                   </Button>
                 );
-              })}
+              }))}
               
               {mergedUsers.length === 0 && (
                 <div className="flex flex-col items-center justify-center py-12 text-center">

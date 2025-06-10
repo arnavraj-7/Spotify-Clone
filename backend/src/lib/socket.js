@@ -50,7 +50,7 @@ export const initializeSocket = (server) => {
     socket.on("send_messages",async(payload)=>{
         const {senderId,receiverId,content} = payload;
         try{
-          const new_message = await Message.create({senderId,receiverId,content,delivered:userSockets.has(receiverId)});
+          const new_message = await Message.create({senderId,receiverId,content,delivered:true});
           if(userSockets.has(receiverId)){ //that means user is online
             io.to(userSockets.get(receiverId)).emit("receive_messages",new_message);
           }else{

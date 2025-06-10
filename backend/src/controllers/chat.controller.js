@@ -14,6 +14,7 @@ const getMessages = async (req, res, next) => {
 			],
 		}).sort({ createdAt: 1 });
 		console.log("🔍 Found messages:", messages.length);
+    await Message.updateMany({ senderId:r_id ,receiverId: myId, delivered: false }, { delivered: true });
 
 		res.status(200).json(messages);
 	} catch (error) {
@@ -23,19 +24,19 @@ const getMessages = async (req, res, next) => {
 
 async function markasDelivered (req, res) {
   try {
-    const { userId } = req.params;
-    const currentUserId = req.auth().id; // from auth middleware
-    
+    const { id } = req.params;
+    const currentUserId = req.auth().userId; // from auth middleware
+    console.log("📨 markasDelivered:", { id, currentUserId });
     // Mark messages as delivered
-    await Message.updateMany(
+   const updated = await Message.updateMany(
       { 
-        senderId: userId, 
+        senderId: id, 
         receiverId: currentUserId, 
-        delivered: false 
+        seen: false 
       },
-      { delivered: true }
+      { seen: true }
     );
-    
+    console.log("🔍 Updated messages:", updated);
     res.json({ success: true });
   } catch (error) {
     res.status(500).json({ error: error.message });
