@@ -8,7 +8,6 @@ import SongSkeleton from "@/skeletons/SongSkeleton";
 import usePlayerStore from "@/stores/PlayerStore.ts";
 import { Button } from "@/components/ui/button.tsx";
 import { motion, AnimatePresence } from "framer-motion";
-import { i } from "node_modules/@clerk/clerk-react/dist/useAuth-CbDfW7Rs.d.mts";
 
 const AlbumPage = () => {
   const id: string | undefined = useParams().id;
