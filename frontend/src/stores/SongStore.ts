@@ -7,9 +7,9 @@ type SongStore = {
   fetchMadeforYou(token:string): Promise<void>;
   fetchTrendingSong(): Promise<void>;
 
-  featuredSong: Song[];        
-  MadeforYouSong: Song[];
-  TrendingSong: Song[];
+  featuredSong: Song[] | [];        
+  MadeforYouSong: Song[] | [];
+  TrendingSong: Song[] | [];
 
   isLoadingFeatured: boolean;
   isLoadingMadeForYou: boolean;

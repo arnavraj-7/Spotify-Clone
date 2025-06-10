@@ -2,9 +2,9 @@ import API from "@/lib/axios";
 import { create } from "zustand";
 import type { Song, Album } from "@/types";
 interface AlbumStore {
-  albums: Album[];
+  albums: Album[] | [];
   currentAlbum: Album | null;
-  songs: Song[];
+  songs: Song[] | [];
   isLoading: boolean;
   isLoadingSingleAlbum: boolean;
   error: string | null;
