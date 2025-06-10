@@ -11,10 +11,9 @@ import { motion, AnimatePresence } from "framer-motion";
 
 const AlbumPage = () => {
   const id: string | undefined = useParams().id;
-  const { currentSong, isPlaying, playAlbum, togglePlay,initialiseQueue } = usePlayerStore();
+  const { currentSong, isPlaying, playAlbum, togglePlay, initialiseQueue } = usePlayerStore();
 
-  const { fetchAlbumbyId, currentAlbum, isLoadingSingleAlbum, } =
-    useAlbumStore();
+  const { fetchAlbumbyId, currentAlbum, isLoadingSingleAlbum } = useAlbumStore();
 
   const handlePlayAlbum = () => {
     initialiseQueue(currentAlbum?.songs || []);
@@ -67,8 +66,13 @@ const AlbumPage = () => {
   };
 
   const playButtonVariants = {
-    hover: { scale: 1.05 },
-    tap: { scale: 0.95 }
+    hover: { 
+      scale: 1.08,
+      boxShadow: "0 10px 25px rgba(34, 197, 94, 0.4)",
+    },
+    tap: { 
+      scale: 0.92,
+    }
   };
 
   const songListVariants = {
@@ -143,17 +147,13 @@ const AlbumPage = () => {
         transition={{ duration: 0.5, delay: 0.4 }}
       >
         <div className="ml-6 mb-4">
-          <motion.div
-            variants={playButtonVariants}
-            whileHover="hover"
-            whileTap="tap"
-          >
+        
             <Button
               onClick={() => {
                 handlePlayAlbum();
               }}
               size={"icon"}
-              className="w-14 h-14 rounded-full bg-green-500 hover:bg-green-400 hover:scale-105 transition-all duration-200 ease-in-out"
+              className="w-14 h-14 rounded-full bg-green-500 hover:bg-green-500 shadow-lg border-0 focus:ring-0"
             >
               <AnimatePresence mode="wait">
                 {isPlaying &&
@@ -162,27 +162,27 @@ const AlbumPage = () => {
                 ) ? (
                   <motion.div
                     key="pause"
-                    initial={{ opacity: 0, rotate: -90 }}
-                    animate={{ opacity: 1, rotate: 0 }}
-                    exit={{ opacity: 0, rotate: 90 }}
-                    transition={{ duration: 0.2 }}
+                    initial={{ opacity: 0, scale: 0.8 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    exit={{ opacity: 0, scale: 0.8 }}
+                    transition={{ duration: 0.15, ease: "easeOut" }}
                   >
-                    <Pause size={100} className="text-black h-7 w-7" />
+                    <Pause className="text-black h-7 w-7" />
                   </motion.div>
                 ) : (
                   <motion.div
                     key="play"
-                    initial={{ opacity: 0, rotate: -90 }}
-                    animate={{ opacity: 1, rotate: 0 }}
-                    exit={{ opacity: 0, rotate: 90 }}
-                    transition={{ duration: 0.2 }}
+                    initial={{ opacity: 0, scale: 0.8 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    exit={{ opacity: 0, scale: 0.8 }}
+                    transition={{ duration: 0.15, ease: "easeOut" }}
                   >
-                    <Play size={100} className="text-black h-7 w-7" />
+                    <Play className="text-black h-7 w-7 ml-0.5" />
                   </motion.div>
                 )}
               </AnimatePresence>
             </Button>
-          </motion.div>
+        
         </div>
 
         <motion.div 
