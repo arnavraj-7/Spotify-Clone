@@ -30,7 +30,7 @@ const PORT = process.env.PORT || 3000;
 const httpServer = createServer(app);
 initializeSocket(httpServer)
 
-const frontendURL =process.env.FRONTENDURL || "http://localhost:3000";
+const frontendURL =process.env.FRONTEND_URL || "http://localhost:3000";
 
 
 //Global Middlewares
