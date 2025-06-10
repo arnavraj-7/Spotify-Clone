@@ -1,5 +1,5 @@
 import type { Song } from "@/types";
-import PlayButton from "../components/Home-Page-Components/PlayButton";
+import PlayButton from "../home/Home-Page-Components/PlayButton";
 
 const TrendingSongCard = ({ song }: { song: Song }) => {
   const { title, artist, imageUrl } = song;

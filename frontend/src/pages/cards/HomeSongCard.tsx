@@ -1,5 +1,5 @@
 import type { Song } from "@/types";
-import PlayButton from "../components/Home-Page-Components/PlayButton";
+import PlayButton from "../home/Home-Page-Components/PlayButton";
 import { Pause, PauseIcon } from "lucide-react";
 import usePlayerStore from "@/stores/PlayerStore";
 

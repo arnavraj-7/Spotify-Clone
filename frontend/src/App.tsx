@@ -16,6 +16,7 @@ import AdminPage from "./pages/Admin/AdminPage.tsx";
 import Albums from "./pages/Admin/Albums.tsx";
 import Songs from "./pages/Admin/Songs.tsx";
 import RequestBackend from "./pages/loading/RequestBackend.tsx";
+import NotFoundPage from "./pages/loading/404.tsx";
 
 function App() {
     return (
@@ -37,6 +38,7 @@ function App() {
           <Route index element={<Songs/>}/>
           <Route path="albums" element={<Albums/>}/>
           </Route>        
+          <Route path="*" element={<NotFoundPage/>}/>
       </Routes>
   );
 }

@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "nodemon src/index.js",
-    "seed:db":"node src/seeds/albums.js"
+    "seed:db": "node src/seeds/albums.js"
   },
   "keywords": [],
   "type": "module",
@@ -16,6 +16,7 @@
     "@clerk/express": "^1.5.0",
     "cloudinary": "^2.6.1",
     "cors": "^2.8.5",
+    "cron": "^4.3.1",
     "dotenv": "^16.5.0",
     "express": "^5.1.0",
     "express-fileupload": "^1.5.1",
