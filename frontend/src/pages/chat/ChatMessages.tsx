@@ -48,7 +48,6 @@ const ChatLoadingSkeleton = () => (
 const ChatMessages = ({ receiver }: { receiver: userWithActivities }) => {
   const { getToken } = useAuth();
   const { user } = useUser();
-  const [loading, setLoading] = useState(false);
   const { 
     fetchMessages, 
     sendMessage, 
@@ -146,16 +145,14 @@ const ChatMessages = ({ receiver }: { receiver: userWithActivities }) => {
   // Scroll to bottom when conversation changes (new receiver)
   useEffect(() => {
     async function fetchData() {
-      setLoading(true);
       const token = await getToken();
       if (!token || !receiver?.clerkId || !user?.id) return;
       await fetchMessages(token, receiver.clerkId, user.id);
-      setLoading(false);
     }
 
     fetchData();
     setShouldAutoScroll(true);
-  }, [receiver.clerkId]);
+  }, [receiver.clerkId, user?.id, getToken, fetchMessages]);
 
   useEffect(() => {
     if (activeConversation && conversations[activeConversation]) {
@@ -290,7 +287,7 @@ const ChatMessages = ({ receiver }: { receiver: userWithActivities }) => {
                 <>
                   <AnimatePresence>
                     {messages.map((message, index) => {
-                      if(!message.createdAt || ) return null;
+                      if(!message.createdAt) return null;
                       const isCurrentUser = message.senderId === user?.id;
                       const showAvatar =
                         index === 0 ||
@@ -343,7 +340,6 @@ const ChatMessages = ({ receiver }: { receiver: userWithActivities }) => {
                               {isCurrentUser ? (
                                 <div className="w-full h-full rounded-full bg-green-500 flex items-center justify-center text-white text-sm font-medium">
                                   {user?.firstName?.charAt(0) ||
-                                    user?.username?.charAt(0) ||
                                     "Y"}
                                 </div>
                               ) : (
