@@ -76,20 +76,6 @@ const LeftSideBar = () => {
                 </Link>
               );
             })}
-            {albums.map((item) => {
-              return (
-                <Link
-                  to={`/album/${item._id || Math.random()}`}
-                  key={item._id || Math.random()}
-                >
-                  {isLoading ? (
-                    <PlaylistCardSkeleton />
-                  ) : (
-                    <PlaylistCard item={item} />
-                  )}
-                </Link>
-              );
-            })}
           </div>
         </ScrollArea>
       </div>
