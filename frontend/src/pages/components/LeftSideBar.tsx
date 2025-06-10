@@ -62,7 +62,7 @@ const LeftSideBar = () => {
         </div>
         <ScrollArea className="h-[calc(100vh-300px)]">
           <div className="flex flex-col gap-y-4 rounded-md px-4 pt-2">
-            {albums.map((item) => {
+            {Array.isArray(albums) && albums.map((item) => {
               return (
                 <Link
                   to={`/album/${item._id || Math.random()}`}
