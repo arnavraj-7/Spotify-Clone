@@ -62,20 +62,17 @@ const LeftSideBar = () => {
         </div>
         <ScrollArea className="h-[calc(100vh-300px)]">
           <div className="flex flex-col gap-y-4 rounded-md px-4 pt-2">
-            {Array.isArray(albums) && albums.map((item) => {
+            {isLoading?(Array.from({ length: 4 }).map((_, i) => <PlaylistCardSkeleton key={i} />)):(Array.isArray(albums) && albums.map((item) => {
               return (
                 <Link
                   to={`/album/${item._id || Math.random()}`}
                   key={item._id || Math.random()}
                 >
-                  {isLoading ? (
-                    <PlaylistCardSkeleton />
-                  ) : (
                     <PlaylistCard item={item} />
-                  )}
-                </Link>
-              );
-            })}
+                 
+                </Link>)
+})
+            )}
           </div>
         </ScrollArea>
       </div>
