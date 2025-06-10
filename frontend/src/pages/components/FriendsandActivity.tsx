@@ -34,9 +34,9 @@ const FriendsandActivity = () => {
     else if (merged.length > 0) setLoading(false);
   }, [userActivities, users, setMergedUsers])
 
-  useEffect(() => {
-    console.log("users:", users, " merged:", mergedUsers, " activities:", userActivities);
-  }, [mergedUsers, users, userActivities])
+  // useEffect(() => {
+  //   console.log("users:", users, " merged:", mergedUsers, " activities:", userActivities);
+  // }, [mergedUsers, users, userActivities])
 
   return (
     <div>

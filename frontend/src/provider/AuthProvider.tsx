@@ -29,7 +29,7 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     const initAuth = async () => {
       try {
         const token = await getToken();
-        console.log(token);
+        // console.log(token);
         updateAPItoken(token);
         if (token) {
           await checkAdmin();

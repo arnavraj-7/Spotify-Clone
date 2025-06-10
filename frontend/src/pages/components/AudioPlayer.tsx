@@ -46,19 +46,8 @@ const AudioPlayer = () => {
         console.log("queue is null");
         setPlaying(false);
         return
-        } ;
-      if (repeat) {
-        audio.onloadedmetadata = null
-        audio.src = currentSong?.audioUrl;
-        console.log("repeat true");
-        audio.currentTime = 0;
-        audio.onloadedmetadata=()=>{audio.play();}
-      } 
-      
-      else {
-        console.log("repeat false");
+        }
         playNext()
-      } 
       
     };
       audio?.addEventListener("ended", handleEnded);

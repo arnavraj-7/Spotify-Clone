@@ -8,15 +8,17 @@ import SongSkeleton from "@/skeletons/SongSkeleton";
 import usePlayerStore from "@/stores/PlayerStore.ts";
 import { Button } from "@/components/ui/button.tsx";
 import { motion, AnimatePresence } from "framer-motion";
+import { i } from "node_modules/@clerk/clerk-react/dist/useAuth-CbDfW7Rs.d.mts";
 
 const AlbumPage = () => {
   const id: string | undefined = useParams().id;
-  const { currentSong, isPlaying, playAlbum, togglePlay } = usePlayerStore();
+  const { currentSong, isPlaying, playAlbum, togglePlay,initialiseQueue } = usePlayerStore();
 
-  const { fetchAlbumbyId, currentAlbum, isLoadingSingleAlbum } =
+  const { fetchAlbumbyId, currentAlbum, isLoadingSingleAlbum, } =
     useAlbumStore();
 
   const handlePlayAlbum = () => {
+    initialiseQueue(currentAlbum?.songs || []);
     if (!currentAlbum?.songs) return;
 
     if (currentAlbum?.songs.some((song) => song._id === currentSong?._id)) {
