@@ -40,7 +40,7 @@ const FriendsandActivity = () => {
 
   return (
     <div>
-          <div className="bg-gradient-to-b from-zinc-900 to-zinc-900/95 rounded-xl h-[calc(100vh-114px)] border border-zinc-800/50 shadow-2xl">
+          <div className="bg-gradient-to-b from-zinc-900 to-zinc-900/95 rounded-xl h-[calc(100vh-114px)] font-urbanist border border-zinc-800/50 shadow-2xl">
           <div className="p-4 border-b border-zinc-800/50">
             <div className="font-bold text-zinc-100 flex gap-x-3 items-center text-md">
               <div className="p-2 bg-green-600/20 rounded-lg">

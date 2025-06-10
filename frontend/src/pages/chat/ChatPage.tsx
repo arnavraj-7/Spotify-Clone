@@ -45,7 +45,7 @@ export const ChatPage = () => {
   if (!mergedUsers) return null;
 
   return (
-    <div className="flex h-[calc(100vh-115px)] gap-4">
+    <div className="flex h-[calc(100vh-115px)] gap-4 font-manrope">
       {/* Users Sidebar */}
       <div className="w-80 flex-shrink-0">
         <div className="bg-gradient-to-b from-zinc-900 to-zinc-900/95 rounded-xl h-full border border-zinc-800/50 shadow-2xl overflow-hidden">
