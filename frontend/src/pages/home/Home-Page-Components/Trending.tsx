@@ -31,7 +31,7 @@ const Trending = () => {
       {/* Horizontal Scroll Container */}
       <ScrollArea className="w-full">
         <div className="flex space-x-4 pb-4">
-          {TrendingSong
+          {Array.isArray(TrendingSong) && TrendingSong
             ? TrendingSong.map((song, index) => {
                 return (
                   <div

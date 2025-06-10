@@ -41,7 +41,7 @@ const MadeforYou = () => {
       {/* Horizontal Scroll Container */}
       <ScrollArea className="w-full">
         <div className="flex space-x-4 pb-4">
-          {MadeforYouSong
+          {Array.isArray(MadeforYouSong) && MadeforYouSong
             ? MadeforYouSong.map((song, index) => {
                 return (
                   <div

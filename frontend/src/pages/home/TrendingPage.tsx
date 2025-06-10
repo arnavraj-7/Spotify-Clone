@@ -19,7 +19,7 @@ const TrendingPage = () => {
       </div>
 
       <div className="md:gap-x-2 grid grid-cols-2 md:grid-cols-3">
-        {TrendingSong
+        {Array.isArray(TrendingSong) && TrendingSong
           ? TrendingSong.map((song) => {
               return (
                 <Link to={song._id} key={song._id}>

@@ -13,7 +13,7 @@ const MadeForYou = () => {
         </div>
 
         <div className=" space-x-4 grid grid-cols-3">
-          {MadeforYouSong
+          {Array.isArray(MadeforYouSong) && MadeforYouSong
             ? MadeforYouSong.map((song) => {
                 return (
                   <Link to={song._id} key={song._id}>
