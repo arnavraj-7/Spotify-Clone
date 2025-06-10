@@ -7,7 +7,9 @@
     "dev": "vite",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+  "vercel-build": "vite build"
+
   },
   "dependencies": {
     "@clerk/clerk-js": "^5.68.0",

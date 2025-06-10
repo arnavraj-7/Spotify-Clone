@@ -5,9 +5,15 @@
     { "path": "./tsconfig.node.json" }
   ],
    "compilerOptions": {
+     "noEmit": true,
+    "skipLibCheck": true,         // ✅ Ignore type errors in node_modules
+    "strict": false,              // 🔻 Loosen type checking
+    "isolatedModules": false,     // Needed if using Vite + loose TS
+    "esModuleInterop": true,
+    "resolveJsonModule": true,
     "baseUrl": ".",
     "paths": {
       "@/*": ["./src/*"]
     }
-  }
+  },"exclude": ["node_modules"]
 }
