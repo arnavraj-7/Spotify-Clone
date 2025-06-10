@@ -4,7 +4,7 @@ import {Message} from "../models/message.model.js"
 
 dotenv.config();
 export const initializeSocket = (server) => {
-  const frontendURL =process.env.FRONTENDURL || "http://localhost:3000";
+  const frontendURL =process.env.FRONTEND_URL || "http://localhost:3000";
   const io = new Server(server, {
     cors: {
       origin: frontendURL,
