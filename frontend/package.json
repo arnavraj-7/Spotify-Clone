@@ -35,6 +35,7 @@
     "socket.io-client": "^4.8.1",
     "tailwind-merge": "^3.3.0",
     "tailwindcss": "^4.1.7",
+    "vite-plugin-checker": "^0.9.3",
     "zustand": "^5.0.5"
   },
   "devDependencies": {
