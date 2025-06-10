@@ -38,7 +38,7 @@ export type Message = {
   content: string;
   delivered?: boolean;
   seen?:boolean;
-  createdAt?: Date;
+  createdAt: Date;
   updatedAt?: Date;
 };
 

@@ -1,13 +1,10 @@
-import { Button } from '@/components/ui/button'
 import { Music } from 'lucide-react'
-import  { useEffect } from 'react'
-import { Link } from 'react-router-dom'
 import { useAdminStore } from '@/stores/AdminStore'
 import { SongCard_admin } from './SongCard_admin'
 import SongSkeleton from '@/skeletons/SongSkeleton'
 import AddSongDialog from './AddSongForm'
 const Songs = () => {
-    const {songs,getAllSongs,isLoading}=useAdminStore();
+    const {songs,isLoading}=useAdminStore();
 
   return (<>
     <div className='flex flex-row justify-between mt-4'>

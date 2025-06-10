@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import UserCard from "../cards/UserCard";
 import { useAuth, useUser } from "@clerk/clerk-react";
-import type { userWithActivities } from "@/types";
+import type { Message, userWithActivities } from "@/types";
 import useChatStore from "@/stores/ChatStore";
 import { motion, AnimatePresence } from "framer-motion";
 
@@ -58,7 +58,7 @@ const ChatMessages = ({ receiver }: { receiver: userWithActivities }) => {
     isLoadingMessages
   } = useChatStore();
   const [newMessage, setNewMessage] = useState("");
-  const [messages, setMessages] = useState([]);
+  const [messages, setMessages] = useState<Message[]>([]);
 
   // Create refs for scrolling
   const scrollAreaRef = useRef<HTMLDivElement>(null);
@@ -290,6 +290,7 @@ const ChatMessages = ({ receiver }: { receiver: userWithActivities }) => {
                 <>
                   <AnimatePresence>
                     {messages.map((message, index) => {
+                      if(!message.createdAt || ) return null;
                       const isCurrentUser = message.senderId === user?.id;
                       const showAvatar =
                         index === 0 ||
@@ -321,7 +322,7 @@ const ChatMessages = ({ receiver }: { receiver: userWithActivities }) => {
                               transition={{ delay: 0.1 }}
                             >
                               <div className="bg-zinc-800 text-zinc-400 text-xs px-3 py-1 rounded-full">
-                                {formatTimestamp(message.createdAt)}
+                                {formatTimestamp(String(message.createdAt))}
                               </div>
                             </motion.div>
                           )}
@@ -348,7 +349,6 @@ const ChatMessages = ({ receiver }: { receiver: userWithActivities }) => {
                               ) : (
                                 <div className="w-full h-full rounded-full bg-blue-500 flex items-center justify-center text-white text-sm font-medium">
                                   {receiver.firstName?.charAt(0) ||
-                                    receiver.username?.charAt(0) ||
                                     "U"}
                                 </div>
                               )}

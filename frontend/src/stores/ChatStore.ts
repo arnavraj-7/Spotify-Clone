@@ -10,7 +10,7 @@ type userActivities = {
 type ChatStore = {
   users: User[] | [];
   onlineUsers: User[] | [];
-  mergedUsers: userWithActivities[] | [];
+  mergedUsers: userWithActivities[] | [] | undefined;
   userActivities: userActivities;
   error: string | null;
   isLoadingUsers: boolean;
@@ -27,7 +27,6 @@ type ChatStore = {
   fetchMessages: (token: string, id: string,currentid:string) => Promise<void>;
   sendMessage: (message: Message) => void;
   receiveMessage: () => void;
-  markAsSeen: (token: string, id: string) => Promise<void>;
   fetchOnlineUsers: () => void;
   fetchUserActivities: () => void;
   updateActivity: () => void;
@@ -115,7 +114,7 @@ const useChatStore = create<ChatStore>((set, get) => {
     }
   },   
 
-    setSocket: (socket: Socket) => {
+    setSocket: (socket: Socket | null) => {
       set({ socket });
     },
     setActiveConversationKey:(key:string)=>{

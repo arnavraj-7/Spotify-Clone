@@ -9,7 +9,7 @@ import usePlayerStore from "@/stores/PlayerStore.ts";
 import { Button } from "@/components/ui/button.tsx";
 
 const AlbumPage = () => {
-  const id: string = useParams().id;
+  const id: string | undefined = useParams().id;
   const { currentSong, isPlaying, playAlbum, togglePlay } = usePlayerStore();
 
   const { fetchAlbumbyId, currentAlbum, isLoadingSingleAlbum } =
@@ -35,9 +35,10 @@ const AlbumPage = () => {
     playAlbum(currentAlbum.songs || [], index);
   };
   useEffect(() => {
+    if(!id)return;
     fetchAlbumbyId(id);
-  }, [id]);
-
+  }, [id,fetchAlbumbyId]);
+  if(currentAlbum?.songs==undefined)return(<div></div>)
   return (
     <div className="h-[calc(100%-100px)] w-full ">
       <div className="bg-gradient-to-b from-purple-900  to-zinc-900 p-6 h-60 rounded-t-md">

@@ -5,7 +5,7 @@ import type { Song } from "@/types/index.js";
 import { useAuth } from "@clerk/clerk-react";
 import { Trash } from "lucide-react";
 
-const SongCard_admin = ({ song, rank,isPlaying }: { song: Song, rank: number,}) => {
+const SongCard_admin = ({ song, rank }: { song: Song, rank: number,isPlaying?: boolean }) => {
   const {getToken } = useAuth();
     const {deleteSong,}=useAdminStore();
    const handleDuration = (duration: number): string => {

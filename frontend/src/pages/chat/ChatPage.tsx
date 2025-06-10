@@ -24,7 +24,7 @@ export const ChatPage = () => {
       await fetchUsers(token);
     }
     fetchData();
-  }, [getToken]);
+  }, [getToken, fetchUsers]);
 
   useEffect(() => {
     const merged = users.filter(user => !!user.clerkId).map((user) => {
@@ -33,7 +33,8 @@ export const ChatPage = () => {
         ...user,
         activity: userActivities[user.clerkId] || "Offline",
       }
-    });
+    })
+    
     setMergedUsers(merged);
      
     if (merged.length === 0) setLoading(true);
