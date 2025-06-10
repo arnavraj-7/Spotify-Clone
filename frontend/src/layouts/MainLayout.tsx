@@ -41,7 +41,9 @@ const MainLayout = () => {
           
           {/* Chat takes full remaining space */}
           <ResizablePanel defaultSize={80} className="">
-            <Outlet />
+      
+             <Outlet />
+           
           </ResizablePanel>
         </ResizablePanelGroup>
         <AudioPlayerControls />

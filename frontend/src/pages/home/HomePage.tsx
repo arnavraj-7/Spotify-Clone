@@ -27,7 +27,7 @@ const HomePage = () => {
     handleGreet();
   })
   return (
-    <div className="bg-gradient-to-b from-zinc-900 to-black h-[calc(100vh-100px)]">
+    <div className="bg-gradient-to-b from-zinc-900 to-black h-[calc(100vh-100px)] font-urbanist">
         <Topbar />
          <div className="h-[calc(100vh-154px)] w-full overflow-y-auto custom-scrollbar">
         
