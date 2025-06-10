@@ -1,7 +1,7 @@
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
-const PlaylistCard = ({item}:{item:{title:string,imageUrl:string}}) => {
+const PlaylistCard = ({item}:{item:{title:string,imageUrl:string,artist:string}}) => {
   const {title,imageUrl} = item;
   return (
     <div className="h-15">
@@ -16,7 +16,7 @@ const PlaylistCard = ({item}:{item:{title:string,imageUrl:string}}) => {
         </div>
         <div className="flex flex-col justify-center">
           <div className="text-md font-semibold">{title}</div>
-          <div className="text-gray-400 text-sm">Album <span className="hidden md:inline">• Various Artists
+          <div className="text-gray-400 text-sm">Album <span className="hidden md:inline">• {item.artist}
             </span> </div>
         </div>
       </div>

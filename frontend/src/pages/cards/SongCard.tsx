@@ -9,7 +9,7 @@ const SongCard = ({ song, rank,isPlaying }: { song: Song, rank: number,isPlaying
     if (duration < 60) {
       return "0:" + String(duration);
     } else {
-      return String(Math.floor(duration / 60)) + ":" + ((duration%60)>10?String(duration % 60):"0"+String(duration % 60));
+      return String(Math.floor(duration / 60)) + ":" + ((duration%60)>=10?String(duration % 60):"0"+String(duration % 60));
     }
   };
   return (
