@@ -6,9 +6,9 @@ const Featured = () => {
   const { fetchFeaturedSong, featuredSong } = useSongStore();
 
   useEffect(() => {
-    if (featuredSong.length == 0 || featuredSong == null) {
-      fetchFeaturedSong();
-    }
+   if (!Array.isArray(featuredSong) || featuredSong.length === 0) {
+  fetchFeaturedSong();
+}
   }, []);
 
   useEffect(() => {
