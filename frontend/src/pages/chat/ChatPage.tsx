@@ -63,7 +63,7 @@ export const ChatPage = () => {
           
           <div className="p-4">
             <div className="space-y-2">
-              <ScrollArea className="h-[calc(100vh-200px)]">
+              <ScrollArea className="h-[calc(100vh-250px)]">
               {loading?<UsersListSkeleton/>:(mergedUsers.map((user: userWithActivities) => {
                 const isSelected = receiver?.clerkId === user.clerkId;
                 return (

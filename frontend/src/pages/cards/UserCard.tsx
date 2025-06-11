@@ -5,6 +5,7 @@ import { cn } from "@/lib/utils";
 import { useEffect, useState } from "react";
 import type { User } from "@/types";
 
+
 const UserCard = ({ user }: { user: User & { activity: any } }) => {
   const [online, setOnline] = useState(false);
   const [isPlaying, setPlaying] = useState(false);
