@@ -16,8 +16,8 @@ const AlbumPage = () => {
   const { fetchAlbumbyId, currentAlbum, isLoadingSingleAlbum } = useAlbumStore();
 
   const handlePlayAlbum = () => {
-    initialiseQueue(currentAlbum?.songs || []);
     if (!currentAlbum?.songs) return;
+    initialiseQueue(currentAlbum?.songs || []);
 
     if (currentAlbum?.songs.some((song) => song._id === currentSong?._id)) {
       togglePlay();

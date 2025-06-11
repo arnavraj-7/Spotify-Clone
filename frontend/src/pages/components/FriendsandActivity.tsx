@@ -5,6 +5,7 @@ import useChatStore from "@/stores/ChatStore";
 import { SignedIn, SignedOut, useAuth } from "@clerk/clerk-react";
 import type { userWithActivities } from "@/types";
 import UsersListSkeleton from "@/skeletons/UserListSkeleton";
+import { ScrollArea } from "@/components/ui/scroll-area";
 
 const FriendsandActivity = () => {
   const { getToken } = useAuth();
@@ -40,7 +41,7 @@ const FriendsandActivity = () => {
 
   return (
     <div>
-          <div className="bg-gradient-to-b from-zinc-900 to-zinc-900/95 rounded-xl h-[calc(100vh-114px)] font-urbanist border border-zinc-800/50 shadow-2xl">
+          <div className="bg-gradient-to-b from-zinc-900 to-zinc-900/95 rounded-xl font-urbanist border border-zinc-800/50 shadow-2xl">
           <div className="p-4 border-b border-zinc-800/50">
             <div className="font-bold text-zinc-100 flex gap-x-3 items-center text-md">
               <div className="p-2 bg-green-600/20 rounded-lg">
@@ -57,7 +58,7 @@ const FriendsandActivity = () => {
     
           
           <div className="p-4">
-            <div className="flex flex-col gap-y-2 max-h-[calc(100vh-220px)] overflow-y-auto">
+            <ScrollArea className="flex flex-col gap-y-2 h-[calc(100vh-280px)] ">
               {mergedUsers.map((user: userWithActivities) => {
                 return <UserCard user={user} key={user.clerkId} />;
               })}
@@ -70,7 +71,7 @@ const FriendsandActivity = () => {
                   <p className="text-sm text-zinc-500">Invite friends to see their activity</p>
                 </div>
               )}
-            </div>
+            </ScrollArea>
           </div>
       }
       </SignedIn>

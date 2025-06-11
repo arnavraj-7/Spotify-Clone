@@ -39,15 +39,18 @@ const AudioPlayer = () => {
     const audio = audioRef.current;
 
     const handleEnded = () => {
-      
-      console.log("song ended.");
       if (!audio) return;
+      audio.onloadedmetadata = null
+      console.log("song ended.");
       if(queue.length==0) {
         console.log("queue is null");
         setPlaying(false);
         return
         }
         playNext()
+        audio.onloadedmetadata = ()=>{
+          audio.play();
+        }
       
     };
       audio?.addEventListener("ended", handleEnded);
