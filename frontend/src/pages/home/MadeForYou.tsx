@@ -16,9 +16,9 @@ const MadeForYou = () => {
           {Array.isArray(MadeforYouSong) && MadeforYouSong
             ? MadeforYouSong.map((song) => {
                 return (
-                  <Link to={song._id} key={song._id}>
+                 
                     <TrendingSongCard song={song} />
-                  </Link>
+                
                 );
               })
             : ""}

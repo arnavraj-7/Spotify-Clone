@@ -22,9 +22,8 @@ const TrendingPage = () => {
         {Array.isArray(TrendingSong) && TrendingSong
           ? TrendingSong.map((song) => {
               return (
-                <Link to={song._id} key={song._id}>
+                
                   <TrendingSongCard song={song} />
-                </Link>
               );
             })
           : ""}
