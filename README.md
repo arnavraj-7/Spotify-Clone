@@ -62,14 +62,14 @@ cd Spotify-Clone
 
 ```bash
 cd client
-pnpm install
+npm install
 ```
 
 #### Backend
 
 ```bash
 cd backend
-pnpm install
+npm install
 ```
 
 ### 3. Create `.env` files
@@ -97,13 +97,13 @@ CLOUDINARY_API_SECRET=your-secret
 #### Frontend
 
 ```bash
-pnpm run dev
+npm run dev
 ```
 
 #### Backend
 
 ```bash
-pnpm start
+npm start
 ```
 
 ---
