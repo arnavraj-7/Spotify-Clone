@@ -54,9 +54,9 @@ const getFeaturedSongs = async (req, res, next) => {
 };
 const getMadeforyou = async (req, res, next) => {
   try {
-    //fetch 4 random songs using aggregation pipelines
+    //fetch 10 random songs using aggregation pipelines
     const madeforyou = await Song.aggregate([
-      { $sample: { size: 6 } },
+      { $sample: { size: 10 } },
       {
         $project: {
           title: 1,
@@ -80,9 +80,9 @@ const getMadeforyou = async (req, res, next) => {
 
 const getTrendingSongs = async (req, res, next) => {
   try {
-    //fetch 4 random songs using aggregation pipelines
+    //fetch 8 random songs using aggregation pipelines
     const trending = await Song.aggregate([
-      { $sample: { size: 4 } },
+      { $sample: { size: 8 } },
       {
         $project: {
           title: 1,
