@@ -1,6 +1,6 @@
 # 🎵 Spotify Clone
 
-A fully functional **Spotify-inspired music streaming app** built with modern technologies, complete with user authentication, personalized playlists, chat functionality, and real-time messaging using Socket.IO.
+A fully functional **Spotify-inspired music streaming app** built with modern technologies, complete with user authentication, real-time activity status, chat functionality, and real-time messaging using Socket.IO.
 
 ## 🖼️ Live Demo
 
